@@ -1,0 +1,2 @@
+/usr/bin/ar qc libimage.hpp.a CMakeFiles/image.hpp.dir/image.cpp.o
+/usr/bin/ranlib libimage.hpp.a

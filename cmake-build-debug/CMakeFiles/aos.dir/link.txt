@@ -1,0 +1,2 @@
+/usr/bin/ar qc libaos.a CMakeFiles/aos.dir/soa.cpp.o
+/usr/bin/ranlib libaos.a

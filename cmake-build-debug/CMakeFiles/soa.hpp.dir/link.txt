@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsoa.hpp.a CMakeFiles/soa.hpp.dir/soa.cpp.o
+/usr/bin/ranlib libsoa.hpp.a

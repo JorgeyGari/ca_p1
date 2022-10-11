@@ -1,0 +1,4 @@
+/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug/CMakeFiles/soa.dir
+/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug/CMakeFiles/image-soa.dir
+/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libimage.cppp.a CMakeFiles/image.cppp.dir/image.cpp.o
+/usr/bin/ranlib libimage.cppp.a
