@@ -35,7 +35,7 @@ void Image::Export(const char *path) const {
                  std::ios::binary); // Opens the file in the specified path, writes the file out and in binary mode
 
     if (!f.is_open()) { // If the file could not be opened...
-        std::cout << "File could not be opened\n";  // ...display an error message...
+        std::cout << "File could not be opened 1\n";  // ...display an error message...
         return; // ...and finish the execution.
     }
 
@@ -136,21 +136,21 @@ void Image::Export(const char *path) const {
     informationHeader[38] = 0;
     informationHeader[39] = 0;
 
-    f.write(reinterpret_cast <char *> (fileHeader), fileHeaderSize);
-    f.write(reinterpret_cast <char *> (informationHeader), informationHeaderSize);
+    f.write(reinterpret_cast<char *>(fileHeader), fileHeaderSize);
+    f.write(reinterpret_cast<char *>(informationHeader), informationHeaderSize);
 
     for (int y = 0; y < m_height; y++) {
         for (int x = 0; x < m_width; x++) {
-            unsigned char r = static_cast <unsigned char> (GetColor(x, y).r * 255.0f);
-            unsigned char g = static_cast <unsigned char> (GetColor(x, y).g * 255.0f);
-            unsigned char b = static_cast <unsigned char> (GetColor(x, y).b * 255.0f);
+            unsigned char r = static_cast<unsigned char>(GetColor(x, y).r * 255.0f);
+            unsigned char g = static_cast<unsigned char>(GetColor(x, y).g * 255.0f);
+            unsigned char b = static_cast<unsigned char>(GetColor(x, y).b * 255.0f);
 
             unsigned char color[] = {b, g, r};
 
-            f.write(reinterpret_cast <char *> (color), 3);
+            f.write(reinterpret_cast<char *>(color), 3);
         }
 
-        f.write(reinterpret_cast <char *> (bmpPad), paddingAmount);
+        f.write(reinterpret_cast<char *>(bmpPad), paddingAmount);
     }
 
     f.close();
