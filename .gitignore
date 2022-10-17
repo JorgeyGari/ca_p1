@@ -1,2 +1,7 @@
-
+.idea
+cmake-build-debug
+cmake-build-debug-address-sanitizer
 *.Identifier
+.gitignore
+*.cbp
+*.json
