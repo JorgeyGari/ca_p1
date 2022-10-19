@@ -5,9 +5,9 @@
 #include <filesystem>
 
 struct Image {
-    std::vector<float> r;
-    std::vector<float> g;
-    std::vector<float> b;
+    std::vector<uint8_t> r;
+    std::vector<uint8_t> g;
+    std::vector<uint8_t> b;
 };
 
 #endif //CA_P1_SOA_HPP
