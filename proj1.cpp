@@ -17,13 +17,20 @@ int main(int argc,char *argv[]){
 		return -1;
 	}else{
 	printf("\nInput path: %s \nOutput path: %s \n", in_file, out_file);
-		if (not(filesystem::exists(in_file))){ //la ouputfile donde se imprimem los resultados tiene que existir o la creamos nosotros?
-			printf("Cannot open directory [%s]\n", in_file);
+		if (not(filesystem::exists(in_file))){
+			printf("Cannot open directory [%s]\n  image in_path out_path oper\n    opertion: copy, histo, mono, gauss", in_file);
 			return -1;
-		}else {  
+		}else if(not(filesystem::exists(out_file))) {
+			printf("Output directory [%s] does not exist\n  image in_path out_path oper\n    opertion: copy, histo, mono, gauss", out_file);
+			return -1;
+		}else{	
 		//AQUÍ IRIA EL CÓDIGO PRINCIPAL 
-	
-		}
+			filesystem::path in_path(in_file);
+			filesystem::path out_path(out_file);
+			//call function to read images 
+			//execute the operations and store in output file 
+		
 		return 0;
+		}
 	}
 }
