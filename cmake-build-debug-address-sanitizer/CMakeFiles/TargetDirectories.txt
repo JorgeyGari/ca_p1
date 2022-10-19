@@ -1,4 +1,0 @@
-/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-address-sanitizer/CMakeFiles/soa.dir
-/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-address-sanitizer/CMakeFiles/image-soa.dir
-/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-address-sanitizer/CMakeFiles/edit_cache.dir
-/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-address-sanitizer/CMakeFiles/rebuild_cache.dir
