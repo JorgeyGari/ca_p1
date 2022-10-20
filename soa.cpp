@@ -4,14 +4,35 @@
 #include <fstream>
 #include <filesystem>
 
+void err_msg(ErrorType e)   // Receives a member of the ErrorType class and displays its corresponding error message
+{
+    switch (e) {
+        case ErrorType::unopened_file:
+            std::cout << "The specified file does not exist or could not be opened.\n";
+            break;
+        case ErrorType::wrong_type:
+            std::cout << "The specified file is not a bitmap image.\n";
+            break;
+        case ErrorType::wrong_planes:
+            std::cout << "The specified bitmap is invalid (number of plains is not equal to 1).\n";
+            break;
+        case ErrorType::wrong_point_size:
+            std::cout << "The specified bitmap is invalid (point size is not equal to 24).\n";
+            break;
+        case ErrorType::wrong_compression:
+            std::cout << "The specified bitmap is invalid (compression value is not equal to 0).\n";
+            break;
+    }
+    exit(-1);   // Finish the execution after the error message is displayed with error code -1
+}
+
 Image read_bmp(std::filesystem::path p) {
     std::ifstream f; // Create a file stream;
     f.open(p, std::ios::in | std::ios::binary); // Open the file in the specified path as input and read it in binary
 
     if (!f.is_open())   // Check if the file could be opened correctly
     {
-        std::cout << "The specified file could not be opened.\n"; // Print out an error message...
-        throw std::exception(); // ...and finish the execution
+        err_msg(ErrorType::unopened_file);    // If not, we will output an error message determined by err_msg()
     }
 
     /* Now we declare some variables holding the amount of unsigned bytes required for each of the fields we need. */
@@ -25,8 +46,7 @@ Image read_bmp(std::filesystem::path p) {
 
     if (file_type[0] != 'B' || file_type[1] != 'M') // Check that the file type is correct
     {
-        std::cout << "The specified file is not a bitmap image.";   // If not, output an error message...
-        throw std::exception(); // ...and finish the execution; file is closed automatically
+        err_msg(ErrorType::wrong_type);
     }
 
     f.ignore(8);   // We do not need any of the fields that take up the next 8 bytes
@@ -49,24 +69,19 @@ Image read_bmp(std::filesystem::path p) {
 
     f.read(reinterpret_cast<char *>(&validity), sizeof(validity));   // We read a total of three integers
 
-    // TODO: Make an enumeration in order to simplify the error messages in the validity-checking process.
-
     if (static_cast<int>(validity[0]) != 1) // Check number of plains
     {
-        std::cout << "The specified bitmap is invalid (number of plains is not equal to 1).";
-        throw std::exception();
+        err_msg(ErrorType::wrong_planes);
     }
 
     if (static_cast<int>(validity[1]) != 24)    // Check point size
     {
-        std::cout << "The specified bitmap is invalid (point size is not equal to 24).";
-        throw std::exception();
+        err_msg(ErrorType::wrong_point_size);
     }
 
     if (static_cast<int>(validity[2]) != 0) // Check compression
     {
-        std::cout << "The specified bitmap is invalid (compression value is not equal to 0).";
-        throw std::exception();
+        err_msg(ErrorType::wrong_compression);
     }
 
     /* Now we can start reading the image's pixels. */
