@@ -1,18 +1,18 @@
-#include "soa.hpp"
+#include "aos.hpp"
 #include "common.cpp"
+#include "common.hpp"
 
 #include <iostream>
+#include <fstream>
 #include <filesystem>
 
-Image read_pixels(std::ifstream &f, uint32_t start, uint32_t width,
-                  uint32_t height) // Reads the RGB values of each pixel in the image
+std::vector<struct Pixel> read_pixels(std::ifstream &f, uint32_t start, uint32_t width,
+                                      uint32_t height) // Reads the RGB values of each pixel in the image
 {
     f.seekg(start); // Go to the address where the image data starts, which we had read before
 
     int px = int(width * height);
-    std::vector<uint8_t> blue(px);
-    std::vector<uint8_t> green(px);
-    std::vector<uint8_t> red(px);
+    std::vector<Pixel> img(px);
 
     /* To calculate how many bytes of padding we have in each row, first we find out how many bytes the colors take up:
      * that is three bytes per color. That amount modulo 4 tells us how many bytes over we are, and 4 minus that amount
@@ -22,11 +22,10 @@ Image read_pixels(std::ifstream &f, uint32_t start, uint32_t width,
     const int padding_bytes = ((4 - (int(width) * 3)) % 4) % 4;
 
     for (int i = 0; i < px; i++) {
-        f.read(reinterpret_cast<char *>(&blue[i]), sizeof(uint8_t));
-        f.read(reinterpret_cast<char *>(&green[i]), sizeof(uint8_t));
-        f.read(reinterpret_cast<char *>(&red[i]), sizeof(uint8_t));
+        f.read(reinterpret_cast<char *>(img[i].b), sizeof(uint8_t));
+        f.read(reinterpret_cast<char *>(&img[i].g), sizeof(uint8_t));
+        f.read(reinterpret_cast<char *>(&img[i].r), sizeof(uint8_t));
         f.ignore(padding_bytes);
-        // std::cout << "Pixel #" << i << ": " << int(red[i]) << " " << int(green[i]) << " " << int(blue[i]) << "\n";
     }
 
     /* Due to the way information is encoded in BMP files, the pixels are stored by rows from bottom to top.
@@ -35,16 +34,10 @@ Image read_pixels(std::ifstream &f, uint32_t start, uint32_t width,
      * Also, due to the format of the file, the order of the colors is inverted, hence we read blue first and red last.
     */
 
-    /* Finally, we declare the structure of arrays and return it. */
-    Image img;
-    img.r = red;
-    img.g = green;
-    img.b = blue;
-
     return img;
 }
 
-Image read_bmp(const std::filesystem::path &path) {
+std::vector<struct Pixel> read_bmp(const std::filesystem::path &path) {
     std::ifstream f; // Create a file stream;
     f.open(path, std::ios::in | std::ios::binary); // Open the file in the specified path as input and read it in binary
 
@@ -75,7 +68,7 @@ Image read_bmp(const std::filesystem::path &path) {
     check_validity(f);
 
     /* Now we can start reading the image's pixels. */
-    Image img = read_pixels(f, start, width, height);
+    std::vector<Pixel> img = read_pixels(f, start, width, height);
 
     return img;
 }
