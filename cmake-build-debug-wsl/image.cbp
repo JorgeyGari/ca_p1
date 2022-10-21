@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="image"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="common">
+				<Option output="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/libcommon.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 common"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="common/fast">
+				<Option output="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/libcommon.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 common/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="soa">
+				<Option output="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/libsoa.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 soa"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="soa/fast">
+				<Option output="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/libsoa.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 soa/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="aos">
+				<Option output="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/libaos.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 aos"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="aos/fast">
+				<Option output="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/libaos.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 aos/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="image-soa">
+				<Option output="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/image-soa" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 image-soa"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="image-soa/fast">
+				<Option output="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/image-soa" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 image-soa/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="image-aos">
+				<Option output="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/image-aos" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 image-aos"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="image-aos/fast">
+				<Option output="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/image-aos" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 image-aos/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/mnt/c/Users/Usuario/CLionProjects/ca_p1/aos.cpp">
+			<Option target="aos"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/Usuario/CLionProjects/ca_p1/aos.hpp">
+			<Option target="aos"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/Usuario/CLionProjects/ca_p1/common.cpp">
+			<Option target="common"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/Usuario/CLionProjects/ca_p1/common.hpp">
+			<Option target="common"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/Usuario/CLionProjects/ca_p1/imgaos.cpp">
+			<Option target="image-aos"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/Usuario/CLionProjects/ca_p1/imgsoa.cpp">
+			<Option target="image-soa"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/Usuario/CLionProjects/ca_p1/soa.cpp">
+			<Option target="soa"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/Usuario/CLionProjects/ca_p1/soa.hpp">
+			<Option target="soa"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/Usuario/CLionProjects/ca_p1/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

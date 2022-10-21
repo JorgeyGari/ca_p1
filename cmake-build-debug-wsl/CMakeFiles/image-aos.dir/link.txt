@@ -1,0 +1,1 @@
+/usr/bin/c++ -g "CMakeFiles/image-aos.dir/imgaos.cpp.o" -o image-aos  libcommon.a libaos.a 

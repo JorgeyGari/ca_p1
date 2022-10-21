@@ -26,7 +26,6 @@ Image read_pixels(std::ifstream &f, uint32_t start, uint32_t width,
         f.read(reinterpret_cast<char *>(&green[i]), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&red[i]), sizeof(uint8_t));
         f.ignore(padding_bytes);
-        // std::cout << "Pixel #" << i << ": " << int(red[i]) << " " << int(green[i]) << " " << int(blue[i]) << "\n";
     }
 
     /* Due to the way information is encoded in BMP files, the pixels are stored by rows from bottom to top.

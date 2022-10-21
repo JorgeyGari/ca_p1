@@ -1,0 +1,96 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Release-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.23"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "image",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "aos::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-aos-Release-160d30eee8771db5b6bd.json",
+					"name" : "aos",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "common::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-common-Release-575cc00aeee965779937.json",
+					"name" : "common",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "image-aos::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-image-aos-Release-8163831e7f7ce3cb6408.json",
+					"name" : "image-aos",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "image-soa::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-image-soa-Release-4d4ad65661b02ca3d39f.json",
+					"name" : "image-soa",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "soa::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-soa-Release-9e69cdb3a67f2a295af9.json",
+					"name" : "soa",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-release-wsl",
+		"source" : "/mnt/c/Users/Usuario/CLionProjects/ca_p1"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

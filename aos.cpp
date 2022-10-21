@@ -22,7 +22,7 @@ std::vector<struct Pixel> read_pixels(std::ifstream &f, uint32_t start, uint32_t
     const int padding_bytes = ((4 - (int(width) * 3)) % 4) % 4;
 
     for (int i = 0; i < px; i++) {
-        f.read(reinterpret_cast<char *>(img[i].b), sizeof(uint8_t));
+        f.read(reinterpret_cast<char *>(&img[i].b), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&img[i].g), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&img[i].r), sizeof(uint8_t));
         f.ignore(padding_bytes);
