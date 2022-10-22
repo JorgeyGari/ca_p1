@@ -1,0 +1,4 @@
+cmake-build-debug-wsl
+cmake-build-release-wsl
+*.Identifier
+*.cbp

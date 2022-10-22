@@ -1,7 +1,0 @@
-/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-release-wsl/CMakeFiles/common.dir
-/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-release-wsl/CMakeFiles/soa.dir
-/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-release-wsl/CMakeFiles/aos.dir
-/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-release-wsl/CMakeFiles/image-soa.dir
-/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-release-wsl/CMakeFiles/image-aos.dir
-/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-release-wsl/CMakeFiles/edit_cache.dir
-/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-release-wsl/CMakeFiles/rebuild_cache.dir
