@@ -32,7 +32,8 @@ int main(int argc, char *argv[]) {
         } else {
             //AQUÍ IRIA EL CÓDIGO PRINCIPAL
             filesystem::path in_path(in_file);
-            read_bmp(in_path);  //call function to read images
+            Header h = read_header(in_path);
+            vector<Pixel> pixels = read_pixels(in_path, h.start, h.width, h.height);
             filesystem::path out_path(out_file);
             //execute the operations and store in output file
 

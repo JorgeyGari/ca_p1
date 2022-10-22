@@ -9,4 +9,9 @@ enum class ErrorType    // Possible errors while reading, used by function err_m
     unopened_file, wrong_type, wrong_planes, wrong_point_size, wrong_compression
 };
 
+struct Header   // A structure holding the relevant header values of a valid bitmap
+{
+    uint32_t start, header_size, width, height, image_size, h_res, v_res, ctable_size, ccounter;
+};
+
 #endif //CA_P1_COMMON_HPP

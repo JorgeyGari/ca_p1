@@ -63,3 +63,52 @@ void check_validity(std::ifstream &f)   // Checks if the bitmap is valid
         err_msg(ErrorType::wrong_compression);
     }
 }
+
+Header read_header(const std::filesystem::path &path)   // Reads the values in the header of a valid bitmap and returns them in a structure
+{
+    std::ifstream f; // Create a file stream;
+    f.open(path, std::ios::in | std::ios::binary); // Open the file in the specified path as input and read it in binary
+
+    if (!f.is_open())   // Check if the file could be opened correctly
+    {
+        err_msg(ErrorType::unopened_file);    // If not, we will output an error message determined by err_msg()
+    }
+
+    /* Reading the file type */
+    read_type(f);
+
+    uint32_t file_size;
+    f.read(reinterpret_cast<char *>(&file_size), sizeof(unsigned int));
+
+    /* Now we declare some variables holding the amount of unsigned bytes required for each of the fields we need. */
+    uint32_t start, header_size, width, height;
+
+    f.ignore(4);   // Skip the reserved field
+
+    /* Reading the start position of the image data */
+    f.read(reinterpret_cast<char *>(&start),
+           sizeof(unsigned int)); // We will need to interpret an integer from these bytes
+
+    f.read(reinterpret_cast<char *>(&header_size), sizeof(unsigned int));
+
+    /* Reading the image's width and height in pixels */
+    f.read(reinterpret_cast<char *>(&width), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&height), sizeof(unsigned int));
+
+    /* Checking the validity of our bitmap file. */
+    check_validity(f);
+
+    /* Finally, we need to copy the rest of the header for the output image */
+    uint32_t image_size, h_res, v_res, ctable_size, ccounter;   // Declare a variable for each field
+
+    f.read(reinterpret_cast<char *>(&image_size), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&h_res), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&v_res), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&ctable_size), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&ccounter), sizeof(unsigned int));
+
+    /* We can return the non-fixed values of the header as a structure */
+    Header h{start, header_size, width, height, image_size, h_res, v_res, ctable_size, ccounter};
+
+    return h;
+}
