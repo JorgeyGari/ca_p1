@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
             //AQUÍ IRIA EL CÓDIGO PRINCIPAL
             filesystem::path in_path(in_file);
             Header h = read_header(in_path);
-            vector<Pixel> pixels = read_pixels(in_path, h.start, h.width, h.height);
+            vector<Pixel> pixels = read_pixels(in_path, h.img_start, h.img_width, h.img_height);
             filesystem::path out_path(out_file);
             //execute the operations and store in output file
 

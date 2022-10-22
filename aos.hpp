@@ -12,3 +12,4 @@ struct Pixel    // Structure that the AOS will hold
 
 #endif //CA_P1_AOS_HPP
 };
+

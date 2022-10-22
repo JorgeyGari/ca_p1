@@ -6,8 +6,8 @@
 #include <fstream>
 #include <filesystem>
 
-std::vector<struct Pixel> read_pixels(std::filesystem::path &path, uint32_t start, uint32_t width,
-                                      uint32_t height) // Reads the RGB values of each pixel in the image
+std::vector<struct Pixel> read_pixels(std::filesystem::path &path, uint32_t start, uint32_t width, uint32_t height)
+// Reads the RGB values of each pixel in the image
 {
     std::ifstream f; // Create a file stream
     f.open(path, std::ios::in | std::ios::binary); // Open the file in the specified path as input and read it in binary
@@ -39,4 +39,23 @@ std::vector<struct Pixel> read_pixels(std::filesystem::path &path, uint32_t star
     */
 
     return img;
+}
+
+void write_bmp(std::filesystem::path &path, Header header, std::vector<Pixel> image)  // Writes a (valid) bitmap file in the specified directory using a given header and the color values for its pixels
+{
+    write_header(path, header);
+
+    /* Once the header is written, we can start setting the color values of each pixel */
+    std::ofstream f;    // Create a file output stream
+    f.open(path, std::ios::in | std::ios::binary);  // Open the file in the specified path, we do not need to check for errors because write_header() already did
+
+    f.seekp(int(header.img_start)); // Seek the position where the image data starts
+    const int padding_bytes = ((4 - (int(header.img_width) * 3)) % 4) % 4;  // Calculate padding bytes as explained in read_pixels()
+    int px = int(header.img_width * header.img_height);
+    for (int i = 0; i < px; i++) {
+        f.write(reinterpret_cast<char *>(&image[i].b), sizeof(uint8_t));
+        f.write(reinterpret_cast<char *>(&image[i].g), sizeof(uint8_t));
+        f.write(reinterpret_cast<char *>(&image[i].r), sizeof(uint8_t));
+        f.write(nullptr, padding_bytes);
+    }
 }
