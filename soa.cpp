@@ -1,6 +1,5 @@
 #include "soa.hpp"
 #include "common.cpp"
-
 #include <iostream>
 #include <filesystem>
 

@@ -1,6 +1,3 @@
-#include <iostream>
-#include<cstring>
-#include<filesystem>
 #include "aos.cpp"
 #include "progargs.cpp"
 

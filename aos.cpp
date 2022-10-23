@@ -1,9 +1,7 @@
 #include "aos.hpp"
 #include "common.cpp"
-#include "common.hpp"
 
 #include <iostream>
-#include <fstream>
 #include <filesystem>
 
 std::vector<struct Pixel> read_pixels(std::filesystem::path &path, uint32_t start, uint32_t width, uint32_t height)

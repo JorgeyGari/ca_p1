@@ -1,5 +1,4 @@
 #include "common.hpp"
-
 #include <iostream>
 #include <fstream>
 
@@ -29,11 +28,17 @@ void err_msg(ErrorType error)
 void read_type(std::ifstream &f)
 // Reads and checks that the encoded filetype is a bitmap
 {
-    uint8_t file_type[2];   // We need to check two characters
-    f.read(reinterpret_cast<char *>(file_type),
-           sizeof(file_type));   // The first 2 bytes tell us the file type, which should be BM
+    uint8_t file_type_B;
+    uint8_t file_type_M;
 
-    if (file_type[0] != 'B' || file_type[1] != 'M') // Check that the file type is correct
+    f.read(reinterpret_cast<char *>(&file_type_B), sizeof(unsigned char));   // The first 2 bytes tell us the file type, which should be BM
+    if (file_type_B != 'B') // Check that the file type is correct
+    {
+        err_msg(ErrorType::wrong_type);
+    }
+
+    f.read(reinterpret_cast<char *>(&file_type_M), sizeof(unsigned char));
+    if (file_type_M != 'M')
     {
         err_msg(ErrorType::wrong_type);
     }
@@ -47,21 +52,25 @@ void check_validity(std::ifstream &f)
      * All the necessary fields are next to each other, so we will store them in the same array.
     */
 
-    uint16_t validity[3];
+    uint16_t planes, point_size;
+    f.read(reinterpret_cast<char *>(&planes), 2);
 
-    f.read(reinterpret_cast<char *>(&validity), sizeof(validity));   // We read a total of three integers
-
-    if (static_cast<int>(validity[0]) != 1) // Check number of plains
+    if (static_cast<int>(planes) != 1) // Check number of planes
     {
         err_msg(ErrorType::wrong_planes);
     }
 
-    if (static_cast<int>(validity[1]) != 24)    // Check point size
+    f.read(reinterpret_cast<char *>(&point_size), 2);
+
+    if (static_cast<int>(point_size) != 24)    // Check point size
     {
         err_msg(ErrorType::wrong_point_size);
     }
 
-    if (static_cast<int>(validity[2]) != 0) // Check compression
+    uint32_t compression;
+    f.read(reinterpret_cast<char *>(&compression), sizeof(unsigned int));
+
+    if (static_cast<int>(compression) != 0) // Check compression
     {
         err_msg(ErrorType::wrong_compression);
     }
@@ -70,6 +79,7 @@ void check_validity(std::ifstream &f)
 Header read_header(const std::filesystem::path &path)
 // Reads the values in the header of a valid bitmap and returns them in a structure
 {
+    Header h{};
     std::ifstream f; // Create a file stream;
     f.open(path, std::ios::in | std::ios::binary); // Open the file in the specified path as input and read it in binary
 
@@ -78,46 +88,25 @@ Header read_header(const std::filesystem::path &path)
         err_msg(ErrorType::unopened_file);    // If not, we will output an error message determined by err_msg()
     }
 
-    /* Reading the file type */
-    read_type(f);
+    read_type(f);   // Checking the file type
 
-    uint32_t file_size;
-    f.read(reinterpret_cast<char *>(&file_size), sizeof(unsigned int));
-
-    /* Now we declare some variables holding the amount of unsigned bytes required for each of the fields we need. */
-    uint32_t start, header_size, width, height;
+    f.read(reinterpret_cast<char *>(&h.file_size), sizeof(unsigned int));
 
     f.ignore(4);   // Skip the reserved field
 
-    /* Reading the img_start position of the image data */
-    f.read(reinterpret_cast<char *>(&start),
-           sizeof(unsigned int)); // We will need to interpret an integer from these bytes
+    f.read(reinterpret_cast<char *>(&h.img_start), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&h.header_size), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&h.img_width), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&h.img_height), sizeof(unsigned int));
 
-    f.read(reinterpret_cast<char *>(&header_size), sizeof(unsigned int));
-
-    /* Reading the image's img_width and img_height in pixels */
-    f.read(reinterpret_cast<char *>(&width), sizeof(unsigned int));
-    f.read(reinterpret_cast<char *>(&height), sizeof(unsigned int));
-
-    /* Checking the validity of our bitmap file. */
-    check_validity(f);
-
-    f.ignore(2);    // FIXME: The position when finishing the validity check is 32 instead of 34
-    long a = f.tellg();
-    std::cout << a << std::endl;
-
-    /* Finally, we need to copy the rest of the header for the output image */
-    uint32_t image_size, h_res, v_res, ctable_size, ccounter;   // Declare a variable for each field
+    check_validity(f);  // Checking the validity of the bitmap
 
     // FIXME: These values are not read correctly (from h_res onwards, they are all read as 0)
-    f.read(reinterpret_cast<char *>(&image_size), sizeof(unsigned int));
-    f.read(reinterpret_cast<char *>(&h_res), sizeof(unsigned int));
-    f.read(reinterpret_cast<char *>(&v_res), sizeof(unsigned int));
-    f.read(reinterpret_cast<char *>(&ctable_size), sizeof(unsigned int));
-    f.read(reinterpret_cast<char *>(&ccounter), sizeof(unsigned int));
-
-    /* We can return the non-fixed values of the header as a structure */
-    Header h{file_size, start, header_size, width, height, image_size, h_res, v_res, ctable_size, ccounter};
+    f.read(reinterpret_cast<char *>(&h.image_size), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&h.h_res), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&h.v_res), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&h.ctable_size), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&h.ccounter), sizeof(unsigned int));
 
     return h;
 }
