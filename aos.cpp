@@ -34,7 +34,8 @@ std::vector<struct Pixel> read_pixels(std::filesystem::path &path, uint32_t star
     return img;
 }
 
-void write_bmp(std::filesystem::path &path, Header header, std::vector<Pixel> image)  // Writes a (valid) bitmap file in the specified directory using a given header and the color values for its pixels
+void write_bmp(std::filesystem::path &path, Header header, std::vector<Pixel> image)
+// Writes a (valid) bitmap file in the specified directory using a given header and the color values for its pixels
 {
     write_header(path, header);
 

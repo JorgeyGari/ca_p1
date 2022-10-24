@@ -65,23 +65,23 @@ Header read_header(const std::filesystem::path &path)
 
     read_type(f);
 
-    f.read(reinterpret_cast<char *>(&h.file_size), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&h.file_size), sizeof(uint32_t));
 
     f.ignore(sizeof(unsigned int));   // Skip the reserved field
 
-    f.read(reinterpret_cast<char *>(&h.img_start), sizeof(unsigned int));
-    f.read(reinterpret_cast<char *>(&h.header_size), sizeof(unsigned int));
-    f.read(reinterpret_cast<char *>(&h.img_width), sizeof(unsigned int));
-    f.read(reinterpret_cast<char *>(&h.img_height), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&h.img_start), sizeof(uint32_t));
+    f.read(reinterpret_cast<char *>(&h.header_size), sizeof(uint32_t));
+    f.read(reinterpret_cast<char *>(&h.img_width), sizeof(uint32_t));
+    f.read(reinterpret_cast<char *>(&h.img_height), sizeof(uint32_t));
 
     check_validity(f);
 
     // FIXME: These values are not read correctly (from h_res onwards, they are all read as 0)
-    f.read(reinterpret_cast<char *>(&h.image_size), sizeof(unsigned int));
-    f.read(reinterpret_cast<char *>(&h.h_res), sizeof(unsigned int));
-    f.read(reinterpret_cast<char *>(&h.v_res), sizeof(unsigned int));
-    f.read(reinterpret_cast<char *>(&h.ctable_size), sizeof(unsigned int));
-    f.read(reinterpret_cast<char *>(&h.ccounter), sizeof(unsigned int));
+    f.read(reinterpret_cast<char *>(&h.image_size), sizeof(uint32_t));
+    f.read(reinterpret_cast<char *>(&h.h_res), sizeof(uint32_t));
+    f.read(reinterpret_cast<char *>(&h.v_res), sizeof(uint32_t));
+    f.read(reinterpret_cast<char *>(&h.ctable_size), sizeof(u_int32_t));
+    f.read(reinterpret_cast<char *>(&h.ccounter), sizeof(uint32_t));
 
     return h;
 }
@@ -113,8 +113,8 @@ void write_header(std::filesystem::path &path, Header header)
     f.write(reinterpret_cast<const char *>(&header.img_height), sizeof(unsigned int));
 
     int valid_values[] = {1, 24, 0};
-    f.write(reinterpret_cast<const char *>(&valid_values[0]), sizeof(unsigned int));    // Number of plains: 1
-    f.write(reinterpret_cast<const char *>(&valid_values[1]), sizeof(unsigned int));    // Point size in bits: 24
+    f.write(reinterpret_cast<const char *>(&valid_values[0]), 2);    // Number of plains: 1
+    f.write(reinterpret_cast<const char *>(&valid_values[1]), 2);    // Point size in bits: 24
     f.write(reinterpret_cast<const char *>(&valid_values[2]), sizeof(unsigned int));    // Compression: 0
 
     f.write(reinterpret_cast<const char *>(&header.image_size), sizeof(unsigned int));
