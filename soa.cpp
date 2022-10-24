@@ -46,10 +46,6 @@ void write_bmp(std::filesystem::path &path, const Header& header, Image image)
     f.open(path, std::ios::in | std::ios::binary);
     /* We do not need to check for errors because write_header() already did */
 
-    if (!f.is_open()) {
-        err_msg(ErrorType::unopened_file);
-    }
-
     f.seekp(static_cast<int>(header.img_start));
 
     const int padding_bytes = (4 - (static_cast<int>(header.img_width) * 3) % 4) % 4;

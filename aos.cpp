@@ -2,6 +2,7 @@
 
 #include "aos.hpp"
 #include "common_rw.cpp"
+#include "common_hst.cpp"
 #include <iostream>
 #include <filesystem>
 
@@ -22,7 +23,7 @@ std::vector<struct Pixel> read_pixels(std::filesystem::path &path, uint32_t star
      * gives us how many bytes we have left. If the color bytes modulo 4 is 0, then that amount is 4, and we may skip
      * information from the image, so we apply modulo 4 once again to convert that to 0.
     */
-    const int padding_bytes = ((4 - (int(width) * 3)) % 4) % 4;
+    const int padding_bytes = (4 - (int(width) * 3) % 4) % 4;
 
     for (int i = 0; i < px; i++) {
         f.read(reinterpret_cast<char *>(&img[i].b), sizeof(uint8_t));
@@ -34,7 +35,7 @@ std::vector<struct Pixel> read_pixels(std::filesystem::path &path, uint32_t star
     return img;
 }
 
-void write_bmp(std::filesystem::path &path, Header header, std::vector<Pixel> image)
+void write_bmp(std::filesystem::path &path, const Header& header, std::vector<Pixel> image)
 // Writes a (valid) bitmap file in the specified directory using a given header and the color values for its pixels
 {
     write_header(path, header);
@@ -45,14 +46,14 @@ void write_bmp(std::filesystem::path &path, Header header, std::vector<Pixel> im
 
     f.seekp(int(header.img_start));
 
-    const int padding_bytes = ((4 - (int(header.img_width) * 3)) % 4) % 4;
-
+    const int padding_bytes = (4 - (static_cast<int>(header.img_width) * 3) % 4) % 4;
     int px = int(header.img_width * header.img_height);
+    int zero = 0;   // FIXME: This is stupid
     for (int i = 0; i < px; i++) {
         f.write(reinterpret_cast<char *>(&image[i].b), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image[i].g), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image[i].r), sizeof(uint8_t));
-        f.write(nullptr, padding_bytes);
+        f.write(reinterpret_cast<char *>(&zero), padding_bytes);
     }
 }
 
