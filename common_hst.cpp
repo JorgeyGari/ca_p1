@@ -1,7 +1,3 @@
-//
-// Created by laura on 24/10/2022.
-//
-
 #include "common.cpp"
 #include <iostream>
 #include <fstream>
