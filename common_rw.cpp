@@ -82,17 +82,11 @@ Header read_header(const std::filesystem::path &path)
     f.read(reinterpret_cast<char *>(&h.ctable_size), sizeof(u_int32_t));
     f.read(reinterpret_cast<char *>(&h.ccounter), sizeof(uint32_t));
 
-    long posr1 = f.tellg();
-    std::cout << posr1;
-
     uint8_t bytes;
     for (int i = 0; i < static_cast<int>(h.header_size); i++) {
         f.read(reinterpret_cast<char *>(&bytes), sizeof(uint8_t));
         h.header.push_back(bytes);
     }
-
-    long posr2 = f.tellg();
-    std::cout << posr2;
 
     return h;
 }
