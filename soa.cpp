@@ -1,5 +1,5 @@
 #include "soa.hpp"
-#include "common.cpp"
+#include "common_hst.cpp"
 
 #include <iostream>
 #include <filesystem>
@@ -78,4 +78,25 @@ Image read_bmp(const std::filesystem::path &path) {
     Image img = read_pixels(f, start, width, height);
 
     return img;
+}
+
+void frequencies (const std::vector<uint8_t> &color, std::ofstream& f) {
+    std::vector<int> freq; // Declare a vector to count the occurrences of each value (from 0 to 255) of the color in each pixel
+    freq.resize(256);
+    for (uint8_t element: color) {
+        // Every time a value appears, we add 1 to the element in the vector of frequencies that represents that value
+        freq[element]++;
+    }
+    for (int i = 0; i < 256; i++) {
+        f << freq[i] << "\n";
+    }
+}
+
+void histogram (const Image &img) {
+    std::filesystem::path path = "./soa.hst";
+    std::ofstream f = open_file(path);
+
+    frequencies(img.r, f);
+    frequencies(img.g, f);
+    frequencies(img.b, f);
 }
