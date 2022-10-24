@@ -52,13 +52,13 @@ void write_bmp(std::filesystem::path &path, const Header& header, Image image)
 
     f.seekp(static_cast<int>(header.img_start));
 
-    const int padding_bytes = ((4 - (static_cast<int>(header.img_width) * 3)) % 4) % 4;
+    const int padding_bytes = (4 - (static_cast<int>(header.img_width) * 3) % 4) % 4;
     int px = int(header.img_width * header.img_height);
     int zero = 0;   // FIXME: This is dumb
     for (int i = 0; i < px; i++) {
         f.write(reinterpret_cast<char *>(&image.b[i]), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image.g[i]), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image.r[i]), sizeof(uint8_t));
-        f.write(reinterpret_cast<char *>(&zero), padding_bytes);
+        f.write(reinterpret_cast<char *>(&zero), padding_bytes);    // FIXME: padding_bytes is -1? Is that why it stops writing?
     }
 }
