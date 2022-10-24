@@ -11,3 +11,8 @@ std::ofstream open_file (std::filesystem::path &path) {
     return f;
 }
 
+void print_to_file (std::vector<int> &freq, std::ofstream &f) {
+    for (int i = 0; i < 256; i++) {
+        f << freq[i] << "\n";
+    }
+}
