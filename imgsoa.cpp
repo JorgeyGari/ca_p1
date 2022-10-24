@@ -11,4 +11,5 @@ int main(int argc, char *argv[]) {
 
     Header header = read_header(data.in);
     Image image = read_pixels(data.in, header.img_start, header.img_width, header.img_height);
+    write_bmp(data.out, header, image);
 }
