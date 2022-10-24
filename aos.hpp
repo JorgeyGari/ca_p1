@@ -4,11 +4,11 @@
 #include <vector>
 #include <filesystem>
 
-struct Pixel    // Structure that the AOS will hold
+struct Pixel    // Structure that the AOS will hold, represents one pixel
 {
-    uint8_t r; // 8 bits representing the red value of the pixel
-    uint8_t g; // 8 bits representing the green value of the pixel
-    uint8_t b; // 8 bits representing the blue value of the pixel
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
 
 #endif //CA_P1_AOS_HPP
 };

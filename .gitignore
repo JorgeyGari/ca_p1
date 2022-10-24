@@ -1,5 +1,6 @@
-.idea
-cmake-build-release-wsl
 cmake-build-debug-wsl
-*.cbp
+cmake-build-release-wsl
+.idea
 *.Identifier
+*.cbp
+a.bmp
