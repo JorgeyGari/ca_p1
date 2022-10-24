@@ -87,9 +87,7 @@ void frequencies (const std::vector<uint8_t> &color, std::ofstream& f) {
         // Every time a value appears, we add 1 to the element in the vector of frequencies that represents that value
         freq[element]++;
     }
-    for (int i = 0; i < 256; i++) {
-        f << freq[i] << "\n";
-    }
+    print_to_file(freq, f);
 }
 
 void histogram (const Image &img) {
