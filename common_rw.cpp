@@ -82,12 +82,17 @@ Header read_header(const std::filesystem::path &path)
     f.read(reinterpret_cast<char *>(&h.ctable_size), sizeof(u_int32_t));
     f.read(reinterpret_cast<char *>(&h.ccounter), sizeof(uint32_t));
 
-    std::vector<uint8_t> byte;
-    byte.resize(h.header_size);
+    long posr1 = f.tellg();
+    std::cout << posr1;
+
+    uint8_t bytes;
     for (int i = 0; i < static_cast<int>(h.header_size); i++) {
-        f.read(reinterpret_cast<char *>(&byte[i]), sizeof(uint8_t));
+        f.read(reinterpret_cast<char *>(&bytes), sizeof(uint8_t));
+        h.header.push_back(bytes);
     }
-    h.header = byte;
+
+    long posr2 = f.tellg();
+    std::cout << posr2;
 
     return h;
 }
@@ -98,8 +103,7 @@ void write_header(std::filesystem::path &path, Header header)
     std::ofstream f;
     f.open(path, std::ios::out | std::ios::binary);
 
-    if (!f.is_open())
-    {
+    if (!f.is_open()) {
         err_msg(ErrorType::unopened_file);
     }
 
@@ -129,5 +133,7 @@ void write_header(std::filesystem::path &path, Header header)
     f.write(reinterpret_cast<const char *>(&header.ctable_size), sizeof(unsigned int));
     f.write(reinterpret_cast<const char *>(&header.ccounter), sizeof(unsigned int));
 
-    f.write(reinterpret_cast<const char *>(&header.header), static_cast<int>(header.header_size));
+    for (int i = 0; i < static_cast<int>(header.header_size); i++) {
+        f.write(reinterpret_cast<const char *>(&header.header[i]), sizeof(uint8_t));
+    }
 }

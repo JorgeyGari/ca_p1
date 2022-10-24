@@ -37,7 +37,7 @@ Image read_pixels(std::filesystem::path &path, uint32_t start, uint32_t width, u
     return img;
 }
 
-void write_bmp(std::filesystem::path &path, Header header, Image image)
+void write_bmp(std::filesystem::path &path, const Header& header, Image image)
 // Writes a (valid) bitmap file in the specified directory using a given header and the color values for its pixels
 {
     write_header(path, header);
@@ -50,9 +50,9 @@ void write_bmp(std::filesystem::path &path, Header header, Image image)
         err_msg(ErrorType::unopened_file);
     }
 
-    f.seekp(int(header.img_start));
+    f.seekp(static_cast<int>(header.img_start));
 
-    const int padding_bytes = ((4 - (int(header.img_width) * 3)) % 4) % 4;
+    const int padding_bytes = ((4 - (static_cast<int>(header.img_width) * 3)) % 4) % 4;
     int px = int(header.img_width * header.img_height);
     int zero = 0;   // FIXME: This is dumb
     for (int i = 0; i < px; i++) {
