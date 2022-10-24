@@ -72,3 +72,29 @@ std::vector<struct Pixel> read_bmp(const std::filesystem::path &path) {
 
     return img;
 }
+
+void count (std::vector<int> &freq_red, std::vector<int> &freq_green, std::vector<int> &freq_blue, const std::vector<Pixel> &img) {
+    int n = static_cast<int>(img.size()); // Save the number of pixels in the image
+    for (int i = 0; i < n; i++) {
+        freq_red[img[i].r]++;
+        freq_green[img[i].g]++;
+        freq_blue[img[i].b]++;
+    }
+}
+
+void histogram (const std::vector<Pixel> &img) {
+    std::filesystem::path path = "./aos.hst";
+    std::ofstream f = open_file(path);
+
+    // Declare 3 vectors to count the frequencies, one for each color
+    std::vector<int> freq_red, freq_green, freq_blue;
+    freq_red.resize(256); // size = 256 as we can have those values
+    freq_green.resize(256);
+    freq_blue.resize(256);
+
+    count(freq_red, freq_green, freq_blue, img);
+
+    print_to_file(freq_red, f);
+    print_to_file(freq_green, f);
+    print_to_file(freq_blue, f);
+}
