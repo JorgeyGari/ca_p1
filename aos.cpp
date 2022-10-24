@@ -1,17 +1,18 @@
-#include "aos.hpp"
-#include "common.cpp"
+/* Source file containing functions exclusive to the AOS version */
 
+#include "aos.hpp"
+#include "common_rw.cpp"
 #include <iostream>
 #include <filesystem>
 
 std::vector<struct Pixel> read_pixels(std::filesystem::path &path, uint32_t start, uint32_t width, uint32_t height)
 // Reads the RGB values of each pixel in the image
 {
-    std::ifstream f; // Create a file stream
-    f.open(path, std::ios::in | std::ios::binary); // Open the file in the specified path as input and read it in binary
+    std::ifstream f;
+    f.open(path, std::ios::in | std::ios::binary);
     /* We do not need to check if it exists or if it could be opened because read_header() already did */
 
-    f.seekg(start); // Go to the address where the image data starts
+    f.seekg(start);
 
     int px = int(width * height);
     std::vector<Pixel> img(px);
@@ -30,12 +31,6 @@ std::vector<struct Pixel> read_pixels(std::filesystem::path &path, uint32_t star
         f.ignore(padding_bytes);
     }
 
-    /* Due to the way information is encoded in BMP files, the pixels are stored by rows from bottom to top.
-     * That is: the first pixel that we read is actually the bottom left corner of the image, and the last one is the
-     * top right corner.
-     * Also, due to the format of the file, the order of the colors is inverted, hence we read blue first and red last.
-    */
-
     return img;
 }
 
@@ -43,12 +38,14 @@ void write_bmp(std::filesystem::path &path, Header header, std::vector<Pixel> im
 {
     write_header(path, header);
 
-    /* Once the header is written, we can start setting the color values of each pixel */
-    std::ofstream f;    // Create a file output stream
-    f.open(path, std::ios::in | std::ios::binary);  // Open the file in the specified path, we do not need to check for errors because write_header() already did
+    std::ofstream f;
+    f.open(path, std::ios::in | std::ios::binary);
+    /* We do not need to check for errors because write_header() already did */
 
-    f.seekp(int(header.img_start)); // Seek the position where the image data starts
-    const int padding_bytes = ((4 - (int(header.img_width) * 3)) % 4) % 4;  // Calculate padding bytes as explained in read_pixels()
+    f.seekp(int(header.img_start));
+
+    const int padding_bytes = ((4 - (int(header.img_width) * 3)) % 4) % 4;
+
     int px = int(header.img_width * header.img_height);
     for (int i = 0; i < px; i++) {
         f.write(reinterpret_cast<char *>(&image[i].b), sizeof(uint8_t));

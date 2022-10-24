@@ -1,3 +1,5 @@
+/* Source file containing the code that handles argument parsing */
+
 #include <iostream>
 #include<cstring>
 #include<filesystem>
