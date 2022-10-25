@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     filesystem::directory_iterator it(data_files.in);
     for (auto& entry : it){
             cout <<"File: "<<  entry << "\n"; //TAMBIÉN HAY QUE IMPRIMIR EL TIME DE CADA COSA
-    Header header = read_header(data.in);
+    Header header = read_header(data_files.in);
     std::vector<Pixel> image = read_pixels(data_files.in, header.img_start, header.img_width, header.img_height);
     write_bmp(data_files.out, header, image);
 	}
