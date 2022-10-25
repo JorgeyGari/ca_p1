@@ -6,7 +6,7 @@
 using namespace std;
 
 struct Datastruct{
-	filesystem::path in, out;
+    filesystem::path in, out;
 };
 
 
@@ -28,7 +28,7 @@ struct Datastruct argparsing(string in, string out, string oper){
                    in_file);
             exit(-1);
         } else if (not(filesystem::exists(out_file))) {
-         	 printf("Output directory [%s] does not exist\n  image in_path out_path oper\n    opertion: copy, histo, mono, gauss \n",
+            printf("Output directory [%s] does not exist\n  image in_path out_path oper\n    opertion: copy, histo, mono, gauss \n",
                    out_file);
             	exit(-1);
         } else {

@@ -2,6 +2,8 @@
 
 #include "soa.hpp"
 #include "common_rw.cpp"
+#include "common_hst.cpp"
+#include "common_gauss.cpp"
 #include <iostream>
 #include <filesystem>
 
@@ -61,4 +63,73 @@ void write_bmp(std::filesystem::path &path, const Header& header, Image image)
             f.write(reinterpret_cast<const char *>(&zero), padding_bytes);
         }
     }
+}
+
+void frequencies (const std::vector<uint8_t> &color, std::ofstream& f) {
+    std::vector<int> freq; // Declare a vector to count the occurrences of each value (from 0 to 255) of the color in each pixel
+    freq.resize(256);
+    for (uint8_t element: color) {
+        // Every time a value appears, we add 1 to the element in the vector of frequencies that represents that value
+        freq[element]++;
+    }
+    print_to_file(freq, f);
+}
+
+void histogram (const Image &img) {
+    std::filesystem::path path = "./soa.hst";
+    std::ofstream f = open_file(path);
+
+    frequencies(img.r, f);
+    frequencies(img.g, f);
+    frequencies(img.b, f);
+}
+
+std::vector<int> getmim (int i, int j, const Header &h, const std::vector<uint8_t> &color) {
+    std::vector<int> im;
+    im.resize(25);
+    int c = 0;
+    for (int s = -3; s < 2; s++) {
+        for (int t = -3; t < 2; t++) {
+            int iteration = ((i+s)*static_cast<int>(h.img_width))+(j+t);
+            if (i+s < 0 || j+t < 0 || i+s > static_cast<int>(h.img_height)-1 || j+t > static_cast<int>(h.img_width)-1) {
+                im [c] = 0;
+            } else {
+                int integer = static_cast<int>(color[iteration]);
+                im[c] = getm(s, t) * integer;
+            };
+            c++;
+        }
+    }
+    return im;
+}
+
+int getres (int i, int j, const Header &h, const std::vector<uint8_t> &color) {
+    int w = 273;
+    std::vector<int> im = getmim(i, j, h, color);
+    int res = 0;
+    for (int k = 0; k < 25; k++) {
+        res += im[k];
+    }
+    return res/w;
+}
+
+Image gauss (const Image &img, const Header &h) {
+    Image res;
+    res.r.resize(img.r.size());
+    res.g.resize(img.g.size());
+    res.b.resize(img.b.size());
+
+    int rr, rg, rb;
+    for (int i = 0; i < static_cast<int>(h.img_height); i++) {
+        for (int j = 0; j < static_cast<int>(h.img_width); j++) {
+            int iteration = (i * static_cast<int>(h.img_width)) + j;
+            rr = getres(i, j, h, img.r);
+            res.r[iteration] = static_cast<uint8_t>(rr);
+            rg = getres(i, j, h, img.g);
+            res.g[iteration] = static_cast<uint8_t>(rg);
+            rb = getres(i, j, h, img.b);
+            res.b[iteration] = static_cast<uint8_t>(rb);
+        }
+    }
+    return res;
 }

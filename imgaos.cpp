@@ -1,5 +1,10 @@
-/* Main source file for the AOS version */
+//
+// Created by laura on 23/10/2022.
+//
 
+#include <iostream>
+#include<cstring>
+#include<filesystem>
 #include "aos.cpp"
 #include "progargs.cpp"
 
