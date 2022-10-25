@@ -1,10 +1,5 @@
-//
-// Created by laura on 23/10/2022.
-//
+/* Main source file for the AOS version */
 
-#include <iostream>
-#include<cstring>
-#include<filesystem>
 #include "aos.cpp"
 #include "progargs.cpp"
 
@@ -20,9 +15,20 @@ int main(int argc, char *argv[]) {
 //we want to iterate over the elements of the directory 
     filesystem::directory_iterator it(data_files.in);
     for (auto& entry : it){
-            cout <<"File: "<<  entry << "\n"; //TAMBIÉN HAY QUE IMPRIMIR EL TIME DE CADA COSA
+            cout <<"File: "<<  entry << "\n"; //print the total time and the particular times 
     Header header = read_header(data_files.in);
     std::vector<Pixel> image = read_pixels(data_files.in, header.img_start, header.img_width, header.img_height);
-    write_bmp(data_files.out, header, image);
+   	 if (strcmp(argv[3], "copy"){
+   		 write_bmp(data_files.out, header, image);
+   	 }else if (strcmp(argv[3], "histo"){
+	 	histogram(image);
+	      	write_bmp(data_files.out, header, image);	
+	 }else if (strcmp(argv[3], "mono"){
+		//mono(image);
+		write_bmp(data_files.out, header, image);
+	 }else{
+	 	//gauss(image);
+		write_bmp(data_files.out, header, image);
+		 }
 	}
 }
