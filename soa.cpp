@@ -30,7 +30,9 @@ Image read_pixels(std::filesystem::path &path, uint32_t start, uint32_t width, u
         f.read(reinterpret_cast<char *>(&blue[i]), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&green[i]), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&red[i]), sizeof(uint8_t));
-        f.ignore(padding_bytes);
+        if (i > 0 and i % int(width) == 0) {
+            f.ignore(padding_bytes);
+        }
     }
 
     Image img{red, green, blue};
@@ -50,11 +52,13 @@ void write_bmp(std::filesystem::path &path, const Header& header, Image image)
 
     const int padding_bytes = (4 - (static_cast<int>(header.img_width) * 3) % 4) % 4;
     int px = int(header.img_width * header.img_height);
-    int zero = 0;   // FIXME: This is dumb
+    uint8_t zero[3] = {0, 0, 0};   // FIXME: This is dumb
     for (int i = 0; i < px; i++) {
         f.write(reinterpret_cast<char *>(&image.b[i]), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image.g[i]), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image.r[i]), sizeof(uint8_t));
-        f.write(reinterpret_cast<char *>(&zero), padding_bytes);    // FIXME: padding_bytes is -1? Is that why it stops writing?
+        if (i > 0 and i % header.img_width == 0) {
+            f.write(reinterpret_cast<const char *>(&zero), padding_bytes);
+        }
     }
 }

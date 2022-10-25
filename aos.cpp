@@ -29,7 +29,9 @@ std::vector<struct Pixel> read_pixels(std::filesystem::path &path, uint32_t star
         f.read(reinterpret_cast<char *>(&img[i].b), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&img[i].g), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&img[i].r), sizeof(uint8_t));
-        f.ignore(padding_bytes);
+        if (i % int(width) == int(width) - 1) {
+            f.ignore(padding_bytes);
+        }
     }
 
     return img;
