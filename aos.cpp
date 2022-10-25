@@ -55,7 +55,9 @@ void write_bmp(std::filesystem::path &path, const Header& header, std::vector<Pi
         f.write(reinterpret_cast<char *>(&image[i].b), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image[i].g), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image[i].r), sizeof(uint8_t));
-        f.write(reinterpret_cast<char *>(&zero), padding_bytes);
+        if (i % header.img_width == 0) {
+            f.write(reinterpret_cast<const char *>(&zero), padding_bytes);
+        }
     }
 }
 
