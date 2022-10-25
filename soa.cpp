@@ -80,54 +80,45 @@ void histogram (const Image &img) {
     frequencies(img.b, f);
 }
 
-/*std::vector<int> gaussexpression (int m[5][5], int w, const Header &h, std::vector<uint8_t> color) {
-    std::vector<int> res;
-    for (int i = 0; i < static_cast<int>(h.img_height); i++) {
-        for (int j = 0; j < static_cast<int>(h.img_width); j++) {
-            int mult;
-            for (int s = -3; s < 2; s++) {
-                for (int t = -3; t < 2; t++) {
-                    mult += getm(s, t) * color[((i+s)*static_cast<int>(h.img_width)) + (j+t)];
-                }
-            }
-
-        }
-    }
-    return res;
-}*/
-
-std::vector<int> getim (int i, int j, const Header &h, std::vector<uint8_t> color) {
+std::vector<int> getmim (int i, int j, const Header &h, const std::vector<uint8_t> &color) {
     std::vector<int> im;
     im.resize(25);
     int c = 0;
+    int integer;
     for (int s = -3; s < 2; s++) {
         for (int t = -3; t < 2; t++) {
-            im[c] = color[((i+s)*h.img_width)+(j+t)];
+            int iteration = ((i+s)*static_cast<int>(h.img_width))+(j+t);
+            if (i+s < 0 || j+t < 0 || i+s > static_cast<int>(h.img_height)-1 || j+t > static_cast<int>(h.img_width)-1) {
+                im [c] = 0;
+            } else {
+                integer = static_cast<int>(color[iteration]);
+                im[c] = getm(s, t) * integer;
+            };
+            c++;
         }
     }
     return im;
 }
 
-Image gauss (const Image &img, const Header &h) {
-    Image res = img;
-    int w = 273;
-
-    printf("w = %d\n", w);
-    printf("h = %d\n", h.img_height);
-    printf("width = %d\n", h.img_width);
-    printf("size = %d", h.img_height*h.img_width);
-
-    std::vector<int> im;
-    im = getim(0, 0, h, img.r);
-    int s = -3;
-    for (int c1 = 0; c1 < 5; c1++) {
-        int t = -3;
-        for (int c2 = 0; c2 < 5; c2++) {
-            printf("im(%d + %d, %d + %d) = ", c1, s, c2, t);
-            t++;
-        }
-        s++;
+int getres (int i, int j, const Header &h, const std::vector<uint8_t> &color) {
+    float w = 273;
+    int res;
+    std::vector<int> im = getmim(i, j, h, color);
+    for (int k = 0; k < 25; k++) {
+        res += im[k];
+        printf("res = %d\n", res);
     }
+    return (1/w)*res;
+}
 
-    return res;
+Image gauss (const Image &img, const Header &h) {
+    Image restot;
+
+    printf("height = %d\n", h.img_height);
+    printf("width = %d\n", h.img_width);
+
+    int r = getres(10, 57, h, img.r);
+    printf("r = %d\n", r);
+
+    return restot;
 }
