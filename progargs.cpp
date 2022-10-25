@@ -1,22 +1,23 @@
+/* Source file containing the code that handles argument parsing */
+
+#include <cstring>
+#include <filesystem>
 #include <iostream>
-#include<cstring>
-#include<filesystem>
-#include<string>
 
 using namespace std;
 
-struct Datastruct{
+struct Datastruct {
     filesystem::path in, out;
 };
 
 
 struct Datastruct argparsing(string in, string out, string oper){
-	
+
 	Datastruct data;
 	const char *in_file= in.c_str();
 	const char *out_file=out.c_str();
 	const char *op=oper.c_str();
-   
+
      if ((strcmp(op, "copy") != 0) && (strcmp(op, "histo") != 0) && (strcmp(op, "mono") != 0) && (strcmp(op, "gauss") != 0)) {
         printf("Unexpected operation: %s \n  image  in_path  out_path  oper \n   operation: copy, histo, mono, gauss \n",
                op);
@@ -41,4 +42,3 @@ struct Datastruct argparsing(string in, string out, string oper){
         }
     }
 }
-

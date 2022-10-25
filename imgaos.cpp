@@ -1,6 +1,4 @@
-//
-// Created by laura on 23/10/2022.
-//
+/* Main source file for the AOS version */
 
 #include <iostream>
 #include<cstring>
@@ -17,7 +15,7 @@ int main(int argc, char *argv[]) {
     }
 	Datastruct data_files =argparsing(string(argv[1]),string(argv[2]),string(argv[3])); //analyzes if data provided is valid
 											    //
-//we want to iterate over the elements of the directory 
+//we want to iterate over the elements of the directory
     filesystem::directory_iterator it(data_files.in);
     for (auto& entry : it){
             cout <<"File: "<<  entry << "\n"; //TAMBIÉN HAY QUE IMPRIMIR EL TIME DE CADA COSA

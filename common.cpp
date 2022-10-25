@@ -23,5 +23,5 @@ void err_msg(ErrorType error)
             std::cout << "The specified bitmap is invalid (compression value is not equal to 0).\n";
             break;
     }
-    exit(-1);   // Finish the execution after the error message is displayed with error code -1
+    exit(-1);// Finish the execution after the error message is displayed with error code -1
 }
