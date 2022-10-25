@@ -1,6 +1,6 @@
 /* Main source file for the AOS version */
 
-#include "aos.cpp"
+//#include "aos.cpp"
 #include "progargs.cpp"
 
 using namespace std;
