@@ -24,13 +24,13 @@ Image read_pixels(std::filesystem::path &path, uint32_t start, uint32_t width, u
      * gives us how many bytes we have left. If the color bytes modulo 4 is 0, then that amount is 4, and we may skip
      * information from the image, so we apply modulo 4 once again to convert that to 0.
     */
-    const int padding_bytes = ((4 - (int(width) * 3)) % 4) % 4;
+    const int padding_bytes = (4 - (int(width) * 3) % 4) % 4;
 
     for (int i = 0; i < px; i++) {
         f.read(reinterpret_cast<char *>(&blue[i]), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&green[i]), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&red[i]), sizeof(uint8_t));
-        if (i > 0 and i % width == 0) {
+        if (i % int(width) == 0) {
             f.ignore(padding_bytes);
         }
     }
@@ -57,7 +57,7 @@ void write_bmp(std::filesystem::path &path, const Header& header, Image image)
         f.write(reinterpret_cast<char *>(&image.b[i]), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image.g[i]), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image.r[i]), sizeof(uint8_t));
-        if (i > 0 and i % header.img_width == 0) {
+        if (i % int(header.img_width) == 0) {
             f.write(reinterpret_cast<const char *>(&zero), padding_bytes);
         }
     }
