@@ -1,8 +1,8 @@
 #ifndef CA_P1_COMMON_HPP
 #define CA_P1_COMMON_HPP
 
-#include <filesystem>
 #include <vector>
+#include <filesystem>
 
 struct Header// A structure holding the relevant header values of a valid bitmap
 {
@@ -10,4 +10,12 @@ struct Header// A structure holding the relevant header values of a valid bitmap
     std::vector<uint8_t> header;
 };
 
-#endif//CA_P1_COMMON_HPP
+void read_type(std::ifstream &f);
+
+void check_validity(std::ifstream &f);
+
+Header read_header(const std::filesystem::path &path);
+
+void write_header(std::filesystem::path &path, Header header);
+
+#endif //CA_P1_COMMON_HPP

@@ -73,7 +73,7 @@ Header read_header(const std::filesystem::path &path)
     f.read(reinterpret_cast<char *>(&h.image_size), sizeof(uint32_t));
     f.read(reinterpret_cast<char *>(&h.h_res), sizeof(uint32_t));
     f.read(reinterpret_cast<char *>(&h.v_res), sizeof(uint32_t));
-    f.read(reinterpret_cast<char *>(&h.ctable_size), sizeof(u_int32_t));
+    f.read(reinterpret_cast<char *>(&h.ctable_size), sizeof(uint32_t));
     f.read(reinterpret_cast<char *>(&h.ccounter), sizeof(uint32_t));
 
     uint8_t bytes;

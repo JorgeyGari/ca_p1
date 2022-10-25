@@ -1,8 +1,8 @@
 #ifndef CA_P1_AOS_HPP
 #define CA_P1_AOS_HPP
 
-#include <filesystem>
 #include <vector>
+#include <filesystem>
 
 struct Pixel// Structure that the AOS will hold, represents one pixel
 {

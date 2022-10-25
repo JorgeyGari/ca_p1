@@ -1,6 +1,8 @@
 #include "common.hpp"
-#include <fstream>
+#include <vector>
 #include <iostream>
+#include <fstream>
+#include <filesystem>
 
 std::ofstream open_file(std::filesystem::path &path) {
     std::ofstream f;
