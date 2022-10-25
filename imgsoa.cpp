@@ -1,7 +1,7 @@
-/* Main source file for the SOA version */
+/* Main source file for the AOS version */
 
-#include "progargs.cpp"
 #include "soa.cpp"
+#include "progargs.cpp"
 
 using namespace std;
 
@@ -17,7 +17,18 @@ int main(int argc, char *argv[]) {
     for (auto& entry : it){
             cout <<"File: "<<  entry << "\n"; //TAMBIÉN HAY QUE IMPRIMIR EL TIME DE CADA COSA
     Header header = read_header(data_files.in);
-    Image image = read_pixels(data_files.in, header.img_start, header.img_width, header.img_height);
-    write_bmp(data_files.out, header, image);
+    Image image = read_pixels(data.in, header.img_start, header.img_width, header.img_height);
+    if (strcmp(argv[3], "copy"){
+   		 write_bmp(data_files.out, header, image);
+   	 }else if (strcmp(argv[3], "histo"){
+	 	histogram(image);
+	      	write_bmp(data_files.out, header, image);	
+	 }else if (strcmp(argv[3], "mono"){
+		//mono(image);
+		write_bmp(data_files.out, header, image);
+	 }else{
+	 	//gauss(image);
+		write_bmp(data_files.out, header, image);
+		 }
 	}
 }
