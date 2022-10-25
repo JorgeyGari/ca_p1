@@ -1,6 +1,4 @@
-//
-// Created by laura on 23/10/2022.
-//
+/* Source file containing the code that handles argument parsing */
 
 #include <iostream>
 #include<cstring>
@@ -13,7 +11,7 @@ struct Datastruct{
 };
 
 
-int argparsing(int argc, char *argv[], struct Datastruct*data) {
+int argparsing(int argc, char *argv[], struct Datastruct*data){
     char *in_file = argv[1];
     char *out_file = argv[2];
     char *op = argv[3];
@@ -37,9 +35,9 @@ int argparsing(int argc, char *argv[], struct Datastruct*data) {
             return -1;
         } else {
             filesystem::path in_path(in_file);
-            data->in = in_path;
+            data->in= in_path;
             filesystem::path out_path(out_file);
-            data->out = out_path;
+            data->out=out_path;
 
             return 0;
         }

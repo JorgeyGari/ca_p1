@@ -1,47 +1,17 @@
-//
-// Created by laura on 23/10/2022.
-//
+/* Main source file for the SOA version */
 
-#include <iostream>
-#include<cstring>
-#include<filesystem>
 #include "soa.cpp"
-
+#include "progargs.cpp"
 
 using namespace std;
 
-
 int main(int argc, char *argv[]) {
-    char *in_file = argv[1];
-    char *out_file = argv[2];
-    char *op = argv[3];
-    if (argc != 4) {    /* Checks if enough arguments were provided */
-        printf("\nWrong format: \n  image  in_path  out_path  oper \n    operation: copy, histo, mono, gauss \n");
-        return -1;
-    } else if ((strcmp(op, "copy") != 0) && (strcmp(op, "histo") != 0) && (strcmp(op, "mono") != 0) &&
-               (strcmp(op, "gauss") != 0)) {
-        printf("Unexpected operation: %s \n  image  in_path  out_path  oper \n   operation: copy, histo, mono, gauss \n",
-               op);
-        return -1;
-    } else {
-        printf("\nInput path: %s \nOutput path: %s \n", in_file, out_file);
-        if (not(filesystem::exists(in_file))) {
-            printf("Cannot open directory [%s]\n  image in_path out_path oper\n    opertion: copy, histo, mono, gauss",
-                   in_file);
-            return -1;
-        } else if (not(filesystem::exists(out_file))) {
-            printf("Output directory [%s] does not exist\n  image in_path out_path oper\n    opertion: copy, histo, mono, gauss",
-                   out_file);
-            return -1;
-        } else {
-            //AQUÍ IRIA EL CÓDIGO PRINCIPAL
-            filesystem::path in_path(in_file);
-            Header h = read_header("../in/elephant.bmp");
-            filesystem::path path = "../in/elephant.bmp";
-            Image pixels = read_pixels(path, h.img_start, h.img_width, h.img_height);
-            histogram(pixels);
-            Image res = gauss(pixels, h);
-            return 0;
-        }
-    }
+    Datastruct data;
+    argparsing(argc, argv, &data);
+
+    Header header = read_header(data.in);
+    Image image = read_pixels(data.in, header.img_start, header.img_width, header.img_height);
+    histogram(image);
+    Image res = gauss(image, header);
+    write_bmp(data.out, header, image);
 }

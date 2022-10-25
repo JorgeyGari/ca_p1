@@ -3,6 +3,7 @@
 #include "soa.hpp"
 #include "common_rw.cpp"
 #include "common_hst.cpp"
+#include "common_gauss.cpp"
 #include <iostream>
 #include <filesystem>
 
@@ -79,31 +80,54 @@ void histogram (const Image &img) {
     frequencies(img.b, f);
 }
 
-std::vector<int> gaussexpression (int m[5][5], int w, Header h, std::vector<uint8_t> color) {
+/*std::vector<int> gaussexpression (int m[5][5], int w, const Header &h, std::vector<uint8_t> color) {
     std::vector<int> res;
     for (int i = 0; i < static_cast<int>(h.img_height); i++) {
         for (int j = 0; j < static_cast<int>(h.img_width); j++) {
             int mult;
             for (int s = -3; s < 2; s++) {
                 for (int t = -3; t < 2; t++) {
-                    mult += m[s + 3][t + 3] * color[((i+s)*static_cast<int>(h.img_width)) + (j+t)];
+                    mult += getm(s, t) * color[((i+s)*static_cast<int>(h.img_width)) + (j+t)];
                 }
             }
 
         }
     }
     return res;
+}*/
+
+std::vector<int> getim (int i, int j, const Header &h, std::vector<uint8_t> color) {
+    std::vector<int> im;
+    im.resize(25);
+    int c = 0;
+    for (int s = -3; s < 2; s++) {
+        for (int t = -3; t < 2; t++) {
+            im[c] = color[((i+s)*h.img_width)+(j+t)];
+        }
+    }
+    return im;
 }
 
 Image gauss (const Image &img, const Header &h) {
     Image res = img;
-    int m[5][5] = {{1, 4, 7, 4, 1}, {4, 16, 26, 16, 4}, {7, 26, 41, 26, 7}, {4, 16, 26, 16, 4}, {1, 4, 7, 4, 1}}, w = 273;
+    int w = 273;
 
-    printf("m(0, 0): %d\n", m[0][0]);
     printf("w = %d\n", w);
     printf("h = %d\n", h.img_height);
     printf("width = %d\n", h.img_width);
     printf("size = %d", h.img_height*h.img_width);
+
+    std::vector<int> im;
+    im = getim(0, 0, h, img.r);
+    int s = -3;
+    for (int c1 = 0; c1 < 5; c1++) {
+        int t = -3;
+        for (int c2 = 0; c2 < 5; c2++) {
+            printf("im(%d + %d, %d + %d) = ", c1, s, c2, t);
+            t++;
+        }
+        s++;
+    }
 
     return res;
 }
