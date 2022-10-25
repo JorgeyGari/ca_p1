@@ -1,7 +1,7 @@
 /* Main source file for the SOA version */
 
-#include "soa.cpp"
 #include "progargs.cpp"
+#include "soa.cpp"
 
 using namespace std;
 
