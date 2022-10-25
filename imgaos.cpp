@@ -10,6 +10,6 @@ int main(int argc, char *argv[]) {
     argparsing(argc, argv, &data);
 
     Header header = read_header(data.in);
-    std::vector<Pixel> image = read_pixels(data.in, header.img_start, header.img_width, header.img_width);
+    std::vector<Pixel> image = read_pixels(data.in, header.img_start, header.img_width, header.img_height);
     write_bmp(data.out, header, image);
 }
