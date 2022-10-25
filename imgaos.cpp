@@ -18,12 +18,12 @@ int main(int argc, char *argv[]) {
             cout <<"File: "<<  entry << "\n"; //print the total time and the particular times 
     Header header = read_header(data_files.in);
     std::vector<Pixel> image = read_pixels(data_files.in, header.img_start, header.img_width, header.img_height);
-   	 if (strcmp(argv[3], "copy"){
+   	 if (strcmp(argv[3], "copy")==0){
    		 write_bmp(data_files.out, header, image);
-   	 }else if (strcmp(argv[3], "histo"){
+   	 }else if (strcmp(argv[3], "histo")==0){
 	 	histogram(image);
 	      	write_bmp(data_files.out, header, image);	
-	 }else if (strcmp(argv[3], "mono"){
+	 }else if (strcmp(argv[3], "mono")==0){
 		//mono(image);
 		write_bmp(data_files.out, header, image);
 	 }else{
