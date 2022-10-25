@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
     for (auto& entry : it){
             cout <<"File: "<<  entry << "\n"; //TAMBIÉN HAY QUE IMPRIMIR EL TIME DE CADA COSA
     Header header = read_header(data_files.in);
-    Image image = read_pixels(data.in, header.img_start, header.img_width, header.img_height);
+    Image image = read_pixels(data_files.in, header.img_start, header.img_width, header.img_height);
     write_bmp(data_files.out, header, image);
 	}
 }

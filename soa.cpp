@@ -30,7 +30,9 @@ Image read_pixels(std::filesystem::path &path, uint32_t start, uint32_t width, u
         f.read(reinterpret_cast<char *>(&blue[i]), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&green[i]), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&red[i]), sizeof(uint8_t));
-        f.ignore(padding_bytes);
+        if (i > 0 and i % int(width) == 0) {
+            f.ignore(padding_bytes);
+        }
     }
 
     Image img{red, green, blue};
