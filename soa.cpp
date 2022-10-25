@@ -32,7 +32,9 @@ Image read_pixels(std::filesystem::path &path, uint32_t start, uint32_t width, u
         f.read(reinterpret_cast<char *>(&blue[i]), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&green[i]), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&red[i]), sizeof(uint8_t));
-        f.ignore(padding_bytes);
+        if (i > 0 and i % int(width) == 0) {
+            f.ignore(padding_bytes);
+        }
     }
 
     Image img{red, green, blue};
@@ -52,12 +54,14 @@ void write_bmp(std::filesystem::path &path, const Header& header, Image image)
 
     const int padding_bytes = (4 - (static_cast<int>(header.img_width) * 3) % 4) % 4;
     int px = int(header.img_width * header.img_height);
-    int zero = 0;   // FIXME: This is dumb
+    uint8_t zero[3] = {0, 0, 0};   // FIXME: This is dumb
     for (int i = 0; i < px; i++) {
         f.write(reinterpret_cast<char *>(&image.b[i]), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image.g[i]), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image.r[i]), sizeof(uint8_t));
-        f.write(reinterpret_cast<char *>(&zero), padding_bytes);    // FIXME: padding_bytes is -1? Is that why it stops writing?
+        if (i > 0 and i % header.img_width == 0) {
+            f.write(reinterpret_cast<const char *>(&zero), padding_bytes);
+        }
     }
 }
 
@@ -84,14 +88,13 @@ std::vector<int> getmim (int i, int j, const Header &h, const std::vector<uint8_
     std::vector<int> im;
     im.resize(25);
     int c = 0;
-    int integer;
     for (int s = -3; s < 2; s++) {
         for (int t = -3; t < 2; t++) {
             int iteration = ((i+s)*static_cast<int>(h.img_width))+(j+t);
             if (i+s < 0 || j+t < 0 || i+s > static_cast<int>(h.img_height)-1 || j+t > static_cast<int>(h.img_width)-1) {
                 im [c] = 0;
             } else {
-                integer = static_cast<int>(color[iteration]);
+                int integer = static_cast<int>(color[iteration]);
                 im[c] = getm(s, t) * integer;
             };
             c++;
@@ -101,24 +104,32 @@ std::vector<int> getmim (int i, int j, const Header &h, const std::vector<uint8_
 }
 
 int getres (int i, int j, const Header &h, const std::vector<uint8_t> &color) {
-    float w = 273;
-    int res;
+    int w = 273;
     std::vector<int> im = getmim(i, j, h, color);
+    int res = 0;
     for (int k = 0; k < 25; k++) {
         res += im[k];
-        printf("res = %d\n", res);
     }
-    return (1/w)*res;
+    return res/w;
 }
 
 Image gauss (const Image &img, const Header &h) {
-    Image restot;
+    Image res;
+    res.r.resize(img.r.size());
+    res.g.resize(img.g.size());
+    res.b.resize(img.b.size());
 
-    printf("height = %d\n", h.img_height);
-    printf("width = %d\n", h.img_width);
-
-    int r = getres(10, 57, h, img.r);
-    printf("r = %d\n", r);
-
-    return restot;
+    int rr, rg, rb;
+    for (int i = 0; i < static_cast<int>(h.img_height); i++) {
+        for (int j = 0; j < static_cast<int>(h.img_width); j++) {
+            int iteration = (i * static_cast<int>(h.img_width)) + j;
+            rr = getres(i, j, h, img.r);
+            res.r[iteration] = static_cast<uint8_t>(rr);
+            rg = getres(i, j, h, img.g);
+            res.g[iteration] = static_cast<uint8_t>(rg);
+            rb = getres(i, j, h, img.b);
+            res.b[iteration] = static_cast<uint8_t>(rb);
+        }
+    }
+    return res;
 }
