@@ -29,11 +29,19 @@ Image read_pixels(std::filesystem::path &path, uint32_t start, uint32_t width,
    * apply modulo 4 once again to convert that to 0.
    */
     const int padding_bytes = (4 - (int(width) * 3) % 4) % 4;
+    int read = 0;
 
     for (int i = 0; i < px; i++) {
         f.read(reinterpret_cast<char *>(&blue[i]), sizeof(uint8_t));
+        read++;
         f.read(reinterpret_cast<char *>(&green[i]), sizeof(uint8_t));
+        read++;
         f.read(reinterpret_cast<char *>(&red[i]), sizeof(uint8_t));
+        read++;
+        if (read == static_cast<int>(width) * 3) {
+            read = 0;
+            f.ignore(padding_bytes);
+        }
     }
 
     Image img{red, green, blue};
@@ -56,12 +64,17 @@ void write_bmp(std::filesystem::path &path, const Header &header, Image image)
             (4 - (static_cast<int>(header.img_width) * 3) % 4) % 4;
     int px = int(header.img_width * header.img_height);
     int zero = 0;// FIXME: This is dumb
+    int wrote = 0;
     for (int i = 0; i < px; i++) {
         f.write(reinterpret_cast<char *>(&image.b[i]), sizeof(uint8_t));
+        wrote++;
         f.write(reinterpret_cast<char *>(&image.g[i]), sizeof(uint8_t));
+        wrote++;
         f.write(reinterpret_cast<char *>(&image.r[i]), sizeof(uint8_t));
-        if (i % int(header.img_width) == 0) {
+        wrote++;
+        if (wrote == static_cast<int>(header.img_width) * 3) {
             f.write(reinterpret_cast<const char *>(&zero), padding_bytes);
+            wrote = 0;
         }
     }
 }

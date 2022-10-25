@@ -24,12 +24,17 @@ std::vector<struct Pixel> read_pixels(std::filesystem::path &path, uint32_t star
      * information from the image, so we apply modulo 4 once again to convert that to 0.
     */
     const int padding_bytes = (4 - (int(width) * 3) % 4) % 4;
+    int read = 0;
 
     for (int i = 0; i < px; i++) {
         f.read(reinterpret_cast<char *>(&img[i].b), sizeof(uint8_t));
+        read++;
         f.read(reinterpret_cast<char *>(&img[i].g), sizeof(uint8_t));
+        read++;
         f.read(reinterpret_cast<char *>(&img[i].r), sizeof(uint8_t));
-        if (i % width == 0) {
+        read++;
+        if (read == static_cast<int>(width)) {
+            read = 0;
             f.ignore(padding_bytes);
         }
     }
@@ -51,12 +56,17 @@ void write_bmp(std::filesystem::path &path, const Header& header, std::vector<Pi
     const int padding_bytes = (4 - (static_cast<int>(header.img_width) * 3) % 4) % 4;
     int px = int(header.img_width * header.img_height);
     int zero = 0;   // FIXME: This is stupid
+    int wrote = 0;
     for (int i = 0; i < px; i++) {
         f.write(reinterpret_cast<char *>(&image[i].b), sizeof(uint8_t));
+        wrote++;
         f.write(reinterpret_cast<char *>(&image[i].g), sizeof(uint8_t));
+        wrote++;
         f.write(reinterpret_cast<char *>(&image[i].r), sizeof(uint8_t));
-        if (i % header.img_width == 0) {
-            f.write(reinterpret_cast<char *>(&zero), padding_bytes);
+        wrote++;
+        if (wrote == static_cast<int>(header.img_width) * 3) {
+            f.write(reinterpret_cast<const char *>(&zero), padding_bytes);
+            wrote = 0;
         }
     }
 }
