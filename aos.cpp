@@ -30,7 +30,9 @@ std::vector<struct Pixel> read_pixels(std::filesystem::path &path, uint32_t star
         f.read(reinterpret_cast<char *>(&img[i].b), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&img[i].g), sizeof(uint8_t));
         f.read(reinterpret_cast<char *>(&img[i].r), sizeof(uint8_t));
-        f.ignore(padding_bytes);
+        if (i % int(width) == int(width) - 1) {
+            f.ignore(padding_bytes);
+        }
     }
 
     return img;
@@ -54,7 +56,9 @@ void write_bmp(std::filesystem::path &path, const Header& header, std::vector<Pi
         f.write(reinterpret_cast<char *>(&image[i].b), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image[i].g), sizeof(uint8_t));
         f.write(reinterpret_cast<char *>(&image[i].r), sizeof(uint8_t));
-        f.write(reinterpret_cast<char *>(&zero), padding_bytes);
+        if (i % header.img_width == 0) {
+            f.write(reinterpret_cast<const char *>(&zero), padding_bytes);
+        }
     }
 }
 
