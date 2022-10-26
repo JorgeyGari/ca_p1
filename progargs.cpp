@@ -11,7 +11,7 @@ struct Datastruct {
 };
 
 
-struct Datastruct argparsing(string in, string out, string oper){
+struct Datastruct argparsing(const string &in, const string& out, const string& oper){
 
 	Datastruct data;
 	const char *in_file= in.c_str();

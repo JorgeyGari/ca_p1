@@ -7,16 +7,16 @@
 
 using namespace std;
 
-void perform_op(std::vector<Pixel> *image, string op){
+void perform_op(std::vector<Pixel> *image, string &op, const filesystem::path &new_file, Header &header){
     const char *string= op.c_str();
 	if (strcmp(string, "copy") == 0) {
-           
+        write_bmp(new_file, header, image);
         } else if (strcmp(string, "histo") == 0) {
-            histogram(*image);
-            
+            histogram(image);
+            write_bmp(new_file, header, image);
         } else if (strcmp(string, "mono") == 0) {
             //mono(image);
-            
+            write_bmp(new_file, header, image);
         } else {
             //gauss(image);
             	}
@@ -36,14 +36,13 @@ auto stop_chrono(chrono::time_point<chrono::system_clock> start){
 }
 
 int main(int argc, char *argv[]) {
-	
     if (argc != 4) { /* Checks if enough arguments were provided */
         printf("\nWrong format: \n  image  in_path  out_path  oper \n    operation: copy, histo, mono, gauss \n");
         exit(-1);
     }
     Datastruct data_files = argparsing(string(argv[1]), string(argv[2]), string(argv[3]));//analyzes if data provided is valid
-    
-    //we want to iterate over the elements of the directory
+                                                                                          //
+                                                                                          //we want to iterate over the elements of the directory
     filesystem::directory_iterator it(data_files.in);
     for(auto &entry: it) {
 
@@ -63,7 +62,7 @@ int main(int argc, char *argv[]) {
         write_bmp(new_file, header, image);
         auto storetime=stop_chrono(start);
 
-    int total= loadtime + opertime + storetime;     
+    int total= loadtime + opertime + storetime;
 	cout << "File: " << entry << " (time: " << total << ")" << "\n";//print the total time and the particular times
     print_data(string(argv[3]), loadtime, opertime, storetime);
     }
