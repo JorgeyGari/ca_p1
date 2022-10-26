@@ -3,6 +3,7 @@
 #include "aos.hpp"
 #include "common_hst.cpp"
 #include "common_rw.cpp"
+#include "common_gauss.cpp"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -96,4 +97,74 @@ void histogram(const std::vector<Pixel> &img) {
     print_to_file(freq_red, f);
     print_to_file(freq_green, f);
     print_to_file(freq_blue, f);
+}
+
+Pixel getim (int position, const std::vector<Pixel> &img) {
+    Pixel p{};
+    p.r = img[position].r;
+    p.g = img[position].g;
+    p.b = img[position].b;
+    return p;
+}
+
+int multiply (uint8_t color, int m) {
+    int ip = static_cast<int>(color);
+    int mip = m * ip;
+    return mip;
+}
+
+int multiply_pixel (Pixel p) {
+
+}
+
+void pixel_to_zero (Pixel p) {
+    p.r = static_cast<uint8_t>(0);
+    p.g = static_cast<uint8_t>(0);
+    p.b = static_cast<uint8_t>(0);
+}
+
+Pixel getmim (int i, int j, const std::vector<Pixel> &img, const Header &h) {
+    Pixel res{}, p{};
+    int sumatoryr = 0, sumatoryg = 0, sumatoryb = 0;
+
+    for (int s = -3; s < 2; s++) {
+        int mimr, mimg, mimb;
+        for (int t = -3; t < 2; t++) {
+            int position = ((i+s)*static_cast<int>(h.img_width))+(j+t);
+            if (i+s < 0 || j+t < 0 || i+s > static_cast<int>(h.img_height)-1 || j+t > static_cast<int>(h.img_width)-1) {
+                pixel_to_zero(p);
+            } else {
+                p = getim(position, img);
+                int m = getm(s, t);
+                mimr = multiply(p.r, m);
+                mimg = multiply(p.g, m);
+                mimb = multiply(p.b, m);
+            }
+            sumatoryr += mimr;
+            sumatoryg += mimg;
+            sumatoryb += mimb;
+        }
+    }
+    int w = 273;
+    int resr = sumatoryr/w;
+    int resg = sumatoryg/w;
+    int resb = sumatoryb/w;
+
+    res.r = static_cast<uint8_t>(resr);
+    res.g = static_cast<uint8_t>(resg);
+    res.b = static_cast<uint8_t>(resb);
+
+    return res;
+}
+
+std::vector<Pixel> gauss (const std::vector<Pixel> &img, const Header &h) {
+    std::vector<Pixel> res;
+    res.resize(h.img_height*h.img_width);
+    for (int i = 0; i < static_cast<int>(h.img_height); i++) {
+        for (int j = 0; j < static_cast<int>(h.img_width); j++) {
+            Pixel resij = getmim(i, j, img, h);
+            res[i*h.img_width + j] = resij;
+        }
+    }
+    return res;
 }

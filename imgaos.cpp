@@ -30,8 +30,8 @@ int main(int argc, char *argv[]) {
             //mono(image);
             write_bmp(new_file, header, image);
         } else {
-            //gauss(image);
-            write_bmp(new_file, header, image);
+            std::vector<Pixel> res = gauss(image, header);
+            write_bmp(new_file, header, res);
         }
     }
 }
