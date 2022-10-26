@@ -1,7 +1,7 @@
 /* File containing common functions for SOA and AOS reading and writing methods */
 
 #include "common_rw.hpp"
-#include "common.cpp"
+#include "common.hpp"
 #include <fstream>
 #include <iostream>
 

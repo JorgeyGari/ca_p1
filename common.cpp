@@ -2,6 +2,7 @@
 
 #include "common.hpp"
 #include <iostream>
+#include <chrono>
 
 void err_msg(ErrorType error)
 // Receives a member of the ErrorType class and displays its corresponding error message
@@ -24,4 +25,17 @@ void err_msg(ErrorType error)
             break;
     }
     exit(-1);// Finish the execution after the error message is displayed with error code -1
+}
+
+void print_data(const std::string &op, long loadtime, long opertime, long storetime) {
+    std::cout << "Load time: " << loadtime << "\n";
+    std::cout << op << " time: " << opertime << "\n";
+    std::cout << "Store time: " << storetime << "\n----------------------\n";
+}
+
+long stop_chrono(std::chrono::time_point<std::chrono::system_clock> start) {
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    auto time = duration.count();
+    return time;
 }

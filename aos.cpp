@@ -1,11 +1,12 @@
 /* Source file containing functions exclusive to the AOS version */
 
 #include "aos.hpp"
-#include "common_gauss.cpp"
-#include "common_hst.cpp"
-#include "common_rw.cpp"
+#include "common_gauss.hpp"
+#include "common_hst.hpp"
+#include "common_rw.hpp"
 #include <filesystem>
 #include <iostream>
+#include <cstring>
 
 std::vector<struct Pixel> read_pixels(const std::filesystem::path &path, uint32_t start, uint32_t width, uint32_t height)
 // Reads the RGB values of each pixel in the image
@@ -167,4 +168,20 @@ std::vector<Pixel> gauss(const std::vector<Pixel> &img, const Header &h) {
         }
     }
     return res;
+}
+
+void perform_op(const std::vector<Pixel> &image, std::string &op, std::filesystem::path new_file, const Header &header) {
+    const char *string = op.c_str();
+    if (strcmp(string, "copy") == 0) {
+        write_bmp(new_file, header, image);
+    } else if (strcmp(string, "histo") == 0) {
+        histogram(image);
+        write_bmp(new_file, header, image);
+    } else if (strcmp(string, "mono") == 0) {
+        std::cout << "mono is not yet implemented, no modifications will be made to the images\n";
+        write_bmp(new_file, header, image);
+    } else {
+        gauss(image, header);
+        write_bmp(new_file, header, image);
+    }
 }
