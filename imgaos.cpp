@@ -22,18 +22,17 @@ void perform_op(std::vector<Pixel> *image, string op){
             	}
 }
 
-void print_data( auto total, auto loadtime, auto opertime, auto storetime){
-    cout << "File: " << entry << " (time: " << total << ")" << "\n";//print the total time and the particular times
+void print_data(string op, long loadtime, long opertime, long storetime){
     cout<< "Load time: " << loadtime << "\n";
-    cout << argv[3] << " time: " << opertime << "\n";
+    cout << op << " time: " << opertime << "\n";
     cout<< "Store time: " << storetime << "\n";
 }
 
-auto stop_chrono(auto start){
+auto stop_chrono(chrono::time_point<chrono::system_clock> start){
     auto stop= chrono::high_resolution_clock::now();
-	    auto duration= chrono::duration_cast<std::chrono::microseconds>(stop - start);
-	    auto opertime= duration.count();
-        return opertime;
+	    auto duration= chrono::duration_cast<chrono::microseconds>(stop - start);
+	    auto time= duration.count();
+        return time;
 }
 
 int main(int argc, char *argv[]) {
@@ -51,23 +50,21 @@ int main(int argc, char *argv[]) {
 	auto start = chrono::high_resolution_clock::now();
         Header header = read_header(entry.path());
         std::vector<Pixel> image = read_pixels(entry.path(), header.img_start, header.img_width, header.img_height);
-        auto loadtime=stop_chrono(start);
+        long loadtime=stop_chrono(start);
 
-	auto start = chrono::high_resolution_clock::now();
+	start = chrono::high_resolution_clock::now();
         filesystem::path new_file = data_files.out;
         new_file /= entry.path().filename();
         open_file(new_file);
 
     	perform_op(&image, string(argv[3]));
         auto opertime=stop_chrono(start);
-        auto start = chrono::high_resolution_clock::now();
+        start = chrono::high_resolution_clock::now();
         write_bmp(new_file, header, image);
         auto storetime=stop_chrono(start);
 
     int total= loadtime + opertime + storetime;     
 	cout << "File: " << entry << " (time: " << total << ")" << "\n";//print the total time and the particular times
-    cout<< "Load time: " << loadtime << "\n";
-    cout << argv[3] << " time: " << opertime << "\n";
-    cout<< "Store time: " << storetime << "\n";
+    print_data(string(argv[3]), loadtime, opertime, storetime);
     }
 }
