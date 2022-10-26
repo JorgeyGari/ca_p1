@@ -2,8 +2,39 @@
 
 #include "soa.cpp"
 #include "progargs.cpp"
+#include<chrono>
+#include<cstring>
 
 using namespace std;
+
+void perform_op(Image *image, string op){
+    const char *string= op.c_str();
+	if (strcmp(string, "copy") == 0) {
+           
+        } else if (strcmp(string, "histo") == 0) {
+            histogram(*image);
+            
+        } else if (strcmp(string, "mono") == 0) {
+            //mono(image);
+            
+        } else {
+            //gauss(image);
+            	}
+}
+
+void print_data( auto total, auto loadtime, auto opertime, auto storetime){
+    cout << "File: " << entry << " (time: " << total << ")" << "\n";//print the total time and the particular times
+    cout<< "Load time: " << loadtime << "\n";
+    cout << argv[3] << " time: " << opertime << "\n";
+    cout<< "Store time: " << storetime << "\n";
+}
+
+auto stop_chrono(auto start){
+    auto stop= chrono::high_resolution_clock::now();
+	    auto duration= chrono::duration_cast<std::chrono::microseconds>(stop - start);
+	    auto opertime= duration.count();
+        return opertime;
+}
 
 int main(int argc, char *argv[]) {
     if (argc != 4) { /* Checks if enough arguments were provided */
@@ -15,23 +46,23 @@ int main(int argc, char *argv[]) {
                                                                                           //we want to iterate over the elements of the directory
     filesystem::directory_iterator it(data_files.in);
     for (auto &entry: it) {
-        cout << "File: " << entry << "\n";//TAMBIÉN HAY QUE IMPRIMIR EL TIME DE CADA COSA
+
+        auto start = chrono::high_resolution_clock::now();
         Header header = read_header(entry.path());
         Image image = read_pixels(entry.path(), header.img_start, header.img_width, header.img_height);
-        filesystem::path new_file = data_files.out;
+        auto loadtime=stop_chrono(start);
+    
+    auto start = chrono::high_resolution_clock::now();
+    filesystem::path new_file = data_files.out;
         new_file /= entry.path().filename();
         open_file(new_file);
-        if (strcmp(argv[3], "copy") == 0) {
-            write_bmp(new_file, header, image);
-        } else if (strcmp(argv[3], "histo") == 0) {
-            histogram(image);
-            write_bmp(new_file, header, image);
-        } else if (strcmp(argv[3], "mono") == 0) {
-            //mono(image);
-            write_bmp(new_file, header, image);
-        } else {
-            Image res = gauss(image, header);
-            write_bmp(new_file, header, res);
-        }
+
+        perform_op(&image, string(argv[3]));
+        auto opertime=stop_chrono(start);
+        auto start = chrono::high_resolution_clock::now();
+        write_bmp(new_file, header, image);
+        auto storetime=stop_chrono(start);
+        auto total= loadtime + opertime + storetime;
+        print_data(total,loadtime,opertime,storetime);   
     }
 }
