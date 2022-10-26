@@ -29,7 +29,7 @@ void print_data(const string &op, long loadtime, long opertime, long storetime) 
     cout << "Store time: " << storetime << "\n";
 }
 
-auto stop_chrono(chrono::time_point<chrono::system_clock> start) {
+long stop_chrono(chrono::time_point<chrono::system_clock> start) {
     auto stop = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
     auto time = duration.count();
@@ -38,7 +38,7 @@ auto stop_chrono(chrono::time_point<chrono::system_clock> start) {
 
 int main(int argc, char *argv[]) {
     if (argc != 4) { /* Checks if enough arguments were provided */
-        printf("\nWrong format: \n  image  in_path  out_path  oper \n    operation: copy, histo, mono, gauss \n");
+        printf("\nWrong format: \n image  in_path  out_path  oper \n operation: copy, histo, mono, gauss\n");
         exit(-1);
     }
     Datastruct data_files = argparsing(string(argv[1]), string(argv[2]), string(argv[3]));//analyzes if data provided is valid
@@ -55,17 +55,17 @@ int main(int argc, char *argv[]) {
         start = chrono::high_resolution_clock::now();
         filesystem::path new_file = data_files.out;
         new_file /= entry.path().filename();
-        open_file(new_file);
 
+        open_file(new_file);
         perform_op(image, reinterpret_cast<string &>(argv[3]), new_file, header);
+
         auto opertime = stop_chrono(start);
         start = chrono::high_resolution_clock::now();
         write_bmp(new_file, header, image);
         auto storetime = stop_chrono(start);
 
         long total = loadtime + opertime + storetime;
-        cout << "File: " << entry << " (time: " << total << ")"
-             << "\n";//print the total time and the particular times
+        cout << "File: " << entry << " (time: " << total << ")" << "\n";//print the total time and the particular times
         print_data(string(argv[3]), loadtime, opertime, storetime);
     }
 }
