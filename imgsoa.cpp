@@ -2,39 +2,10 @@
 
 #include "soa.cpp"
 #include "progargs.cpp"
+#include "common.hpp"
 #include <chrono>
-#include <cstring>
 
 using namespace std;
-
-void perform_op(const Image &image, string &op, filesystem::path new_file, const Header &header) {
-    const char *string = op.c_str();
-    if (strcmp(string, "copy") == 0) {
-        write_bmp(new_file, header, image);
-    } else if (strcmp(string, "histo") == 0) {
-        histogram(image);
-        write_bmp(new_file, header, image);
-    } else if (strcmp(string, "mono") == 0) {
-        std::cout << "mono is not yet implemented, no modifications will be made to the images\n";
-        write_bmp(new_file, header, image);
-    } else {
-        gauss(image, header);
-        write_bmp(new_file, header, image);
-    }
-}
-
-void print_data(const string &op, long loadtime, long opertime, long storetime) {
-    cout << "Load time: " << loadtime << "\n";
-    cout << op << " time: " << opertime << "\n";
-    cout << "Store time: " << storetime << "\n";
-}
-
-long stop_chrono(chrono::time_point<chrono::system_clock> start) {
-    auto stop = chrono::high_resolution_clock::now();
-    auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
-    auto time = duration.count();
-    return time;
-}
 
 int main(int argc, char *argv[]) {
     if (argc != 4) { /* Checks if enough arguments were provided */

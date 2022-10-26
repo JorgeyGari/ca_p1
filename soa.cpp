@@ -1,11 +1,12 @@
 /* Source file containing functions exclusive to the SOA version */
 
 #include "soa.hpp"
-#include "common_rw.cpp"
-#include "common_hst.cpp"
-#include "common_gauss.cpp"
-#include <iostream>
+#include "common_gauss.hpp"
+#include "common_hst.hpp"
+#include "common_rw.hpp"
+#include <cstring>
 #include <filesystem>
+#include <iostream>
 
 Image read_pixels(const std::filesystem::path &path, uint32_t start, uint32_t width, uint32_t height)
 // Reads the RGB values of each pixel in the image
@@ -111,7 +112,7 @@ std::vector<int> getmim (int i, int j, const Header &h, const std::vector<uint8_
             } else {
                 int integer = static_cast<int>(color[iteration]);
                 im[c] = getm(s, t) * integer;
-            };
+            }
             c++;
         }
     }
@@ -147,4 +148,20 @@ Image gauss (const Image &img, const Header &h) {
         }
     }
     return res;
+}
+
+void perform_op(const Image &image, std::string &op, std::filesystem::path new_file, const Header &header) {
+    const char *string = op.c_str();
+    if (strcmp(string, "copy") == 0) {
+        write_bmp(new_file, header, image);
+    } else if (strcmp(string, "histo") == 0) {
+        histogram(image);
+        write_bmp(new_file, header, image);
+    } else if (strcmp(string, "mono") == 0) {
+        std::cout << "mono is not yet implemented, no modifications will be made to the images\n";
+        write_bmp(new_file, header, image);
+    } else {
+        gauss(image, header);
+        write_bmp(new_file, header, image);
+    }
 }

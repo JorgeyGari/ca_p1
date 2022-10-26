@@ -1,7 +1,7 @@
 #include "common.hpp"
+#include "common_hst.hpp"
 #include <vector>
 #include <iostream>
-#include <fstream>
 #include <filesystem>
 
 std::ofstream open_file(std::filesystem::path &path) {
