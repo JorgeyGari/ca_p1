@@ -82,8 +82,7 @@ void count(std::vector<int> &freq_red, std::vector<int> &freq_green, std::vector
     }
 }
 
-void histogram(const std::vector<Pixel> &img) {
-    std::filesystem::path path = "./aos.hst";
+void histogram(const std::vector<Pixel> &img, std::filesystem::path path) {
     std::ofstream f = open_file(path);
 
     // Declare 3 vectors to count the frequencies, one for each color

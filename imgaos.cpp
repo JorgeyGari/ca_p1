@@ -24,7 +24,10 @@ int main(int argc, char *argv[]) {
         if (strcmp(argv[3], "copy") == 0) {
             write_bmp(new_file, header, image);
         } else if (strcmp(argv[3], "histo") == 0) {
-            histogram(image);
+            std::filesystem::path output_file = data_files.out;
+            output_file /= entry.path().stem();
+            output_file += ".hst";
+            histogram(image, output_file);
             write_bmp(new_file, header, image);
         } else if (strcmp(argv[3], "mono") == 0) {
             //mono(image);
