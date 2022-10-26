@@ -90,8 +90,7 @@ void frequencies (const std::vector<uint8_t> &color, std::ofstream& f) {
     print_to_file(freq, f);
 }
 
-void histogram (const Image &img) {
-    std::filesystem::path path = "./soa.hst";
+void histogram (const Image &img, std::filesystem::path path) {
     std::ofstream f = open_file(path);
 
     frequencies(img.r, f);
