@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
    		 write_bmp(data_files.out, header, image);
    	 }else if (strcmp(argv[3], "histo")==0){
 	 	histogram(image);
-	      	write_bmp(data_files.out, header, image);	
+        write_bmp(data_files.out, header, image);
 	 }else if (strcmp(argv[3], "mono")==0){
 		//mono(image);
 		write_bmp(data_files.out, header, image);

@@ -8,6 +8,7 @@
 void read_type(std::ifstream &f)
 // Reads and checks that the encoded filetype is a bitmap
 {
+    f.seekg(0);
     uint8_t file_type_B;
     uint8_t file_type_M;
 
