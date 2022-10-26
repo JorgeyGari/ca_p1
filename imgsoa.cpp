@@ -27,8 +27,8 @@ int main(int argc, char *argv[]) {
 		//mono(image);
 		write_bmp(data_files.out, header, image);
 	 }else{
-	 	//gauss(image);
-		write_bmp(data_files.out, header, image);
+	 	Image res = gauss(image, header);
+		write_bmp(data_files.out, header, res);
 		 }
 	}
 }
