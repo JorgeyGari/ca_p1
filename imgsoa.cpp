@@ -7,30 +7,31 @@
 
 using namespace std;
 
-void perform_op(Image *image, string op){
-    const char *string= op.c_str();
-	if (strcmp(string, "copy") == 0) {
-           
-        } else if (strcmp(string, "histo") == 0) {
-            histogram(*image);
-            
-        } else if (strcmp(string, "mono") == 0) {
-            //mono(image);
-            
-        } else {
-            //gauss(image);
-            	}
+void perform_op(const Image &image, string &op, filesystem::path new_file, const Header &header) {
+    const char *string = op.c_str();
+    if (strcmp(string, "copy") == 0) {
+        write_bmp(new_file, header, image);
+    } else if (strcmp(string, "histo") == 0) {
+        histogram(image);
+        write_bmp(new_file, header, image);
+    } else if (strcmp(string, "mono") == 0) {
+        std::cout << "mono is not yet implemented, no modifications will be made to the images\n";
+        write_bmp(new_file, header, image);
+    } else {
+        gauss(image, header);
+        write_bmp(new_file, header, image);
+    }
 }
 
-void print_data( auto total, auto loadtime, auto opertime, auto storetime){
+void print_data(long total, long loadtime, long opertime, long storetime){
     cout << "File: " << entry << " (time: " << total << ")" << "\n";//print the total time and the particular times
     cout<< "Load time: " << loadtime << "\n";
     cout << argv[3] << " time: " << opertime << "\n";
     cout<< "Store time: " << storetime << "\n";
 }
 
-auto stop_chrono(auto start){
-    auto stop= chrono::high_resolution_clock::now();
+auto stop_chrono(long start){
+    chrono::time_point<chrono::system_clock, chrono::duration> stop= chrono::high_resolution_clock::now();
 	    auto duration= chrono::duration_cast<std::chrono::microseconds>(stop - start);
 	    auto opertime= duration.count();
         return opertime;
@@ -52,7 +53,7 @@ int main(int argc, char *argv[]) {
         Image image = read_pixels(entry.path(), header.img_start, header.img_width, header.img_height);
         auto loadtime=stop_chrono(start);
     
-    auto start = chrono::high_resolution_clock::now();
+    long start = chrono::high_resolution_clock::now();
     filesystem::path new_file = data_files.out;
         new_file /= entry.path().filename();
         open_file(new_file);

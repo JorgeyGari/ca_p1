@@ -3,3 +3,5 @@ cmake-build-release-wsl
 .idea
 *.Identifier
 *.cbp
+in
+out/*
