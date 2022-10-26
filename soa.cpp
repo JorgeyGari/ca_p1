@@ -7,7 +7,7 @@
 #include <iostream>
 #include <filesystem>
 
-Image read_pixels(std::filesystem::path &path, uint32_t start, uint32_t width, uint32_t height)
+Image read_pixels(const std::filesystem::path &path, uint32_t start, uint32_t width, uint32_t height)
 // Reads the RGB values of each pixel in the image
 {
     std::ifstream f;

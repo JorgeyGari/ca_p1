@@ -3,4 +3,3 @@ cmake-build-release-wsl
 .idea
 *.Identifier
 *.cbp
-a.bmp
