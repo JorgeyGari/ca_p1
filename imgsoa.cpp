@@ -2,8 +2,39 @@
 
 #include "soa.cpp"
 #include "progargs.cpp"
+#include <chrono>
+#include <cstring>
 
 using namespace std;
+
+void perform_op(const Image &image, string &op, filesystem::path new_file, const Header &header) {
+    const char *string = op.c_str();
+    if (strcmp(string, "copy") == 0) {
+        write_bmp(new_file, header, image);
+    } else if (strcmp(string, "histo") == 0) {
+        histogram(image);
+        write_bmp(new_file, header, image);
+    } else if (strcmp(string, "mono") == 0) {
+        std::cout << "mono is not yet implemented, no modifications will be made to the images\n";
+        write_bmp(new_file, header, image);
+    } else {
+        gauss(image, header);
+        write_bmp(new_file, header, image);
+    }
+}
+
+void print_data(const string &op, long loadtime, long opertime, long storetime) {
+    cout << "Load time: " << loadtime << "\n";
+    cout << op << " time: " << opertime << "\n";
+    cout << "Store time: " << storetime << "\n";
+}
+
+long stop_chrono(chrono::time_point<chrono::system_clock> start) {
+    auto stop = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+    auto time = duration.count();
+    return time;
+}
 
 int main(int argc, char *argv[]) {
     if (argc != 4) { /* Checks if enough arguments were provided */
@@ -15,26 +46,26 @@ int main(int argc, char *argv[]) {
                                                                                           //we want to iterate over the elements of the directory
     filesystem::directory_iterator it(data_files.in);
     for (auto &entry: it) {
-        cout << "File: " << entry << "\n";//TAMBIÉN HAY QUE IMPRIMIR EL TIME DE CADA COSA
+
+        auto start = chrono::high_resolution_clock::now();
         Header header = read_header(entry.path());
         Image image = read_pixels(entry.path(), header.img_start, header.img_width, header.img_height);
+        long loadtime = stop_chrono(start);
+
+        start = chrono::high_resolution_clock::now();
         filesystem::path new_file = data_files.out;
         new_file /= entry.path().filename();
+
         open_file(new_file);
-        if (strcmp(argv[3], "copy") == 0) {
-            write_bmp(new_file, header, image);
-        } else if (strcmp(argv[3], "histo") == 0) {
-            std::filesystem::path output_file = data_files.out;
-            output_file /= entry.path().stem();
-            output_file += ".hst";
-            histogram(image, output_file);
-            write_bmp(new_file, header, image);
-        } else if (strcmp(argv[3], "mono") == 0) {
-            //mono(image);
-            write_bmp(new_file, header, image);
-        } else {
-            Image res = gauss(image, header);
-            write_bmp(new_file, header, res);
-        }
+        perform_op(image, reinterpret_cast<string &>(argv[3]), new_file, header);
+
+        auto opertime = stop_chrono(start);
+        start = chrono::high_resolution_clock::now();
+        write_bmp(new_file, header, image);
+        auto storetime = stop_chrono(start);
+
+        long total = loadtime + opertime + storetime;
+        cout << "File: " << entry << " (time: " << total << ")" << "\n";//print the total time and the particular times
+        print_data(string(argv[3]), loadtime, opertime, storetime);
     }
 }

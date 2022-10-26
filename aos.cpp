@@ -5,7 +5,6 @@
 #include "common_hst.cpp"
 #include "common_rw.cpp"
 #include <filesystem>
-#include <fstream>
 #include <iostream>
 
 std::vector<struct Pixel> read_pixels(const std::filesystem::path &path, uint32_t start, uint32_t width, uint32_t height)
@@ -44,7 +43,7 @@ std::vector<struct Pixel> read_pixels(const std::filesystem::path &path, uint32_
     return img;
 }
 
-void write_bmp(std::filesystem::path &path, const Header &header, std::vector<Pixel> image)
+void write_bmp(std::filesystem::path &path, const Header& header, std::vector<Pixel> image)
 // Writes a (valid) bitmap file in the specified directory using a given header and the color values for its pixels
 {
     write_header(path, header);
