@@ -1,5 +1,0 @@
-if(EXISTS "/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl-coverage/unit_test/unit_test[1]_tests.cmake")
-  include("/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl-coverage/unit_test/unit_test[1]_tests.cmake")
-else()
-  add_test(unit_test_NOT_BUILT unit_test_NOT_BUILT)
-endif()

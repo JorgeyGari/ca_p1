@@ -5,5 +5,5 @@ cmake-build-debug-wsl-coverage
 *.Identifier
 *.cbp
 in
-out/*
-unit_test/test_out/*
+out
+unit_test/test_out
