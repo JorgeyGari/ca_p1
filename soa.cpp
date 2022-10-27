@@ -3,6 +3,7 @@
 #include "soa.hpp"
 #include "common_gauss.hpp"
 #include "common_hst.hpp"
+#include "common_mono.hpp"
 #include <cstring>
 #include <filesystem>
 #include <iostream>
@@ -80,8 +81,8 @@ void write_bmp(std::filesystem::path &path, const Header &header, Image image)
     }
 }
 
-void frequencies (const std::vector<uint8_t> &color, std::ofstream& f) {
-    std::vector<int> freq; // Declare a vector to count the occurrences of each value (from 0 to 255) of the color in each pixel
+void frequencies(const std::vector<uint8_t> &color, std::ofstream &f) {
+    std::vector<int> freq;// Declare a vector to count the occurrences of each value (from 0 to 255) of the color in each pixel
     freq.resize(256);
     for (uint8_t element: color) {
         // Every time a value appears, we add 1 to the element in the vector of frequencies that represents that value
@@ -90,7 +91,7 @@ void frequencies (const std::vector<uint8_t> &color, std::ofstream& f) {
     print_to_file(freq, f);
 }
 
-void histogram (const Image &img, std::filesystem::path path) {
+void histogram(const Image &img, std::filesystem::path path) {
     std::ofstream f = open_file(path);
 
     frequencies(img.r, f);
@@ -98,15 +99,15 @@ void histogram (const Image &img, std::filesystem::path path) {
     frequencies(img.b, f);
 }
 
-std::vector<int> getmim (int i, int j, const Header &h, const std::vector<uint8_t> &color) {
+std::vector<int> getmim(int i, int j, const Header &h, const std::vector<uint8_t> &color) {
     std::vector<int> im;
     im.resize(25);
     int c = 0;
     for (int s = -3; s < 2; s++) {
         for (int t = -3; t < 2; t++) {
-            int iteration = ((i+s)*static_cast<int>(h.img_width))+(j+t);
-            if (i+s < 0 || j+t < 0 || i+s > static_cast<int>(h.img_height)-1 || j+t > static_cast<int>(h.img_width)-1) {
-                im [c] = 0;
+            int iteration = ((i + s) * static_cast<int>(h.img_width)) + (j + t);
+            if (i + s < 0 || j + t < 0 || i + s > static_cast<int>(h.img_height) - 1 || j + t > static_cast<int>(h.img_width) - 1) {
+                im[c] = 0;
             } else {
                 int integer = static_cast<int>(color[iteration]);
                 im[c] = getm(s, t) * integer;
@@ -117,17 +118,17 @@ std::vector<int> getmim (int i, int j, const Header &h, const std::vector<uint8_
     return im;
 }
 
-int getres (int i, int j, const Header &h, const std::vector<uint8_t> &color) {
+int getres(int i, int j, const Header &h, const std::vector<uint8_t> &color) {
     int w = 273;
     std::vector<int> im = getmim(i, j, h, color);
     int res = 0;
     for (int k = 0; k < 25; k++) {
         res += im[k];
     }
-    return res/w;
+    return res / w;
 }
 
-Image gauss (const Image &img, const Header &h) {
+Image gauss(const Image &img, const Header &h) {
     Image res;
     res.r.resize(img.r.size());
     res.g.resize(img.g.size());
@@ -148,20 +149,35 @@ Image gauss (const Image &img, const Header &h) {
     return res;
 }
 
-void call_histogram(const Image& image, const std::filesystem::path& new_file) {
+void call_histogram(const Image &image, const std::filesystem::path &new_file) {
     std::filesystem::path output_file = new_file.parent_path();
     output_file /= new_file.stem();
     output_file += ".hst";
     histogram(image, output_file);
 }
 
-Image perform_op(Image image, std::string &op, const std::filesystem::path& new_file, const Header &header) {
+Image mono(Image &image) {
+    Image grayscale_img;
+    for (int i = 0; i < static_cast<int>(image.r.size()); i++) {
+        std::vector<uint8_t> colors = {image.r[i], image.g[i], image.b[i]};
+        std::vector<double> norm_col = normalize(colors);
+        norm_col = linear_intensity_transform(norm_col);
+        double gray = gamma_correct(linear_transform(norm_col[0], norm_col[1], norm_col[2]));
+        u_int8_t den_gray = denormalize(gray);
+        image.r[i] = den_gray;
+        image.g[i] = den_gray;
+        image.b[i] = den_gray;
+    }
+    return grayscale_img;
+}
+
+Image perform_op(Image image, std::string &op, const std::filesystem::path &new_file, const Header &header) {
     const char *string = op.c_str();
     if (strcmp(string, "histo") == 0) {
         call_histogram(image, new_file);
     }
     if (strcmp(string, "mono") == 0) {
-        std::cout << "mono is not yet implemented, no modifications will be made to the images\n";
+        mono(image);
     }
     if (strcmp(string, "gauss") == 0) {
         image = gauss(image, header);
