@@ -3,6 +3,11 @@
 
 #include <string>
 #include <chrono>
+#include <filesystem>
+
+struct Datastruct {
+    std::filesystem::path in, out;
+};
 
 enum class ErrorType// Possible errors while reading, used by function err_msg()
 {

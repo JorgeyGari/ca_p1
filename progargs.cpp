@@ -1,15 +1,11 @@
 /* Source file containing the code that handles argument parsing */
 
+#include "common.hpp"
 #include <cstring>
 #include <filesystem>
 #include <iostream>
 
 using namespace std;
-
-struct Datastruct {
-    filesystem::path in, out;
-};
-
 
 struct Datastruct argparsing(const string &in, const string& out, const string& oper){
 

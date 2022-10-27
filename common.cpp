@@ -30,7 +30,7 @@ void err_msg(ErrorType error)
 void print_data(const std::string &op, long loadtime, long opertime, long storetime) {
     std::cout << "Load time: " << loadtime << "\n";
     std::cout << op << " time: " << opertime << "\n";
-    std::cout << "Store time: " << storetime << "\n----------------------\n";
+    std::cout << "Store time: " << storetime << "\n";
 }
 
 long stop_chrono(std::chrono::time_point<std::chrono::system_clock> start) {

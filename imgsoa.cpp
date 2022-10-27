@@ -1,4 +1,4 @@
-/* Main source file for the AOS version */
+/* Main source file for the SOA version */
 
 #include "soa.cpp"
 #include "progargs.cpp"
@@ -9,7 +9,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
     if (argc != 4) { /* Checks if enough arguments were provided */
-        printf("\nWrong format: \n  image  in_path  out_path  oper \n    operation: copy, histo, mono, gauss \n");
+        printf("\nWrong format: \n image  in_path  out_path  oper \n operation: copy, histo, mono, gauss\n");
         exit(-1);
     }
     Datastruct data_files = argparsing(string(argv[1]), string(argv[2]), string(argv[3]));//analyzes if data provided is valid
@@ -23,12 +23,12 @@ int main(int argc, char *argv[]) {
         Image image = read_pixels(entry.path(), header.img_start, header.img_width, header.img_height);
         long loadtime = stop_chrono(start);
 
-        start = chrono::high_resolution_clock::now();
         filesystem::path new_file = data_files.out;
         new_file /= entry.path().filename();
 
+        start = chrono::high_resolution_clock::now();
         open_file(new_file);
-        perform_op(image, reinterpret_cast<string &>(argv[3]), new_file, header);
+        image = perform_op(image, reinterpret_cast<string &>(argv[3]), new_file, header);
 
         auto opertime = stop_chrono(start);
         start = chrono::high_resolution_clock::now();
@@ -36,6 +36,7 @@ int main(int argc, char *argv[]) {
         auto storetime = stop_chrono(start);
 
         long total = loadtime + opertime + storetime;
+        std::cout << "----------------------\n";
         cout << "File: " << entry << " (time: " << total << ")" << "\n";//print the total time and the particular times
         print_data(string(argv[3]), loadtime, opertime, storetime);
     }

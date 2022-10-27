@@ -4,9 +4,10 @@
 #include "common_gauss.hpp"
 #include "common_hst.hpp"
 #include "common_rw.hpp"
+#include <cstring>
 #include <filesystem>
 #include <iostream>
-#include <cstring>
+#include <utility>
 
 std::vector<struct Pixel> read_pixels(const std::filesystem::path &path, uint32_t start, uint32_t width, uint32_t height)
 // Reads the RGB values of each pixel in the image
@@ -44,7 +45,7 @@ std::vector<struct Pixel> read_pixels(const std::filesystem::path &path, uint32_
     return img;
 }
 
-void write_bmp(std::filesystem::path &path, const Header& header, std::vector<Pixel> image)
+void write_bmp(std::filesystem::path &path, const Header &header, std::vector<Pixel> image)
 // Writes a (valid) bitmap file in the specified directory using a given header and the color values for its pixels
 {
     write_header(path, header);
@@ -158,7 +159,7 @@ Pixel getmim(int i, int j, const std::vector<Pixel> &img, const Header &h) {
     return res;
 }
 
-std::vector<Pixel> gauss(const std::vector<Pixel> &img, const Header &h) {
+std::vector<Pixel> gauss(const std::vector<Pixel>& img, const Header &h) {
     std::vector<Pixel> res;
     res.resize(h.img_height * h.img_width);
     for (int i = 0; i < static_cast<int>(h.img_height); i++) {
@@ -170,18 +171,23 @@ std::vector<Pixel> gauss(const std::vector<Pixel> &img, const Header &h) {
     return res;
 }
 
-void perform_op(const std::vector<Pixel> &image, std::string &op, std::filesystem::path new_file, const Header &header) {
+void call_histogram(const std::vector<Pixel>& image, const std::filesystem::path& new_file) {
+    std::filesystem::path output_file = new_file.parent_path();
+    output_file /= new_file.stem();
+    output_file += ".hst";
+    histogram(image, output_file);
+}
+
+std::vector<Pixel> perform_op(std::vector<Pixel> image, std::string &op, const std::filesystem::path& new_file, const Header &header) {
     const char *string = op.c_str();
-    if (strcmp(string, "copy") == 0) {
-        write_bmp(new_file, header, image);
-    } else if (strcmp(string, "histo") == 0) {
-        histogram(image);
-        write_bmp(new_file, header, image);
-    } else if (strcmp(string, "mono") == 0) {
-        std::cout << "mono is not yet implemented, no modifications will be made to the images\n";
-        write_bmp(new_file, header, image);
-    } else {
-        gauss(image, header);
-        write_bmp(new_file, header, image);
+    if (strcmp(string, "histo") == 0) {
+        call_histogram(image, new_file);
     }
+    if (strcmp(string, "mono") == 0) {
+        std::cout << "mono is not yet implemented, no modifications will be made to the images\n";
+    }
+    if (strcmp(string, "gauss") == 0) {
+        image = gauss(image, header);
+    }
+    return image;
 }

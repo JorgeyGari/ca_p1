@@ -12,11 +12,11 @@ struct Image// SOA we use to represent an image
     std::vector<uint8_t> b;
 };
 
+Image read_pixels(const std::filesystem::path &path, uint32_t start, uint32_t width, uint32_t height);
+
 void write_bmp(std::filesystem::path &path, const Header &header, Image image);
 
 void frequencies (const std::vector<uint8_t> &color, std::ofstream& f);
-
-void histogram (const Image &img);
 
 std::vector<int> getmim (int i, int j, const Header &h, const std::vector<uint8_t> &color);
 
