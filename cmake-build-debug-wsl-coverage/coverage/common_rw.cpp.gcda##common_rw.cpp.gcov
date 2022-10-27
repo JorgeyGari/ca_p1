@@ -1,0 +1,391 @@
+        -:    0:Source:/mnt/c/Users/Usuario/CLionProjects/ca_p1/common_rw.cpp
+        -:    0:Graph:/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl-coverage/CMakeFiles/common.dir/common_rw.cpp.gcno
+        -:    0:Data:/mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl-coverage/CMakeFiles/common.dir/common_rw.cpp.gcda
+        -:    0:Runs:1
+        -:    1:/* File containing common functions for SOA and AOS reading and writing methods */
+        -:    2:
+        -:    3:#include "common_rw.hpp"
+        -:    4:#include "common.hpp"
+        -:    5:#include <fstream>
+        -:    6:#include <iostream>
+        -:    7:
+function _Z9read_typeRSt14basic_ifstreamIcSt11char_traitsIcEE called 0 returned 0% blocks executed 0%
+    #####:    8:void read_type(std::ifstream &f)
+        -:    9:// Reads and checks that the encoded filetype is a bitmap
+        -:   10:{
+    #####:   11:    f.seekg(0);
+    %%%%%:   11-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    $$$$$:   11-block  1
+        -:   12:    uint8_t file_type_B;
+        -:   13:    uint8_t file_type_M;
+        -:   14:
+    #####:   15:    f.read(reinterpret_cast<char *>(&file_type_B), sizeof(unsigned char));
+    %%%%%:   15-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   16:    if (file_type_B != 'B') {
+    %%%%%:   16-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   17:        err_msg(ErrorType::wrong_type);
+    %%%%%:   17-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   18:    }
+        -:   19:
+    #####:   20:    f.read(reinterpret_cast<char *>(&file_type_M), sizeof(unsigned char));
+    %%%%%:   20-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   21:    if (file_type_M != 'M') {
+    %%%%%:   21-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   22:        err_msg(ErrorType::wrong_type);
+    %%%%%:   22-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   23:    }
+    #####:   24:}
+    %%%%%:   24-block  0
+        -:   25:
+function _Z14check_validityRSt14basic_ifstreamIcSt11char_traitsIcEE called 0 returned 0% blocks executed 0%
+    #####:   26:void check_validity(std::ifstream &f)
+        -:   27:// Checks if the bitmap is valid
+        -:   28:{
+        -:   29:    uint16_t planes, point_size;
+    #####:   30:    f.read(reinterpret_cast<char *>(&planes), sizeof(uint16_t));
+    %%%%%:   30-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   31:
+    #####:   32:    if (static_cast<int>(planes) != 1) {
+    %%%%%:   32-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   33:        err_msg(ErrorType::wrong_planes);
+    %%%%%:   33-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   34:    }
+        -:   35:
+    #####:   36:    f.read(reinterpret_cast<char *>(&point_size), sizeof(uint16_t));
+    %%%%%:   36-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   37:
+    #####:   38:    if (static_cast<int>(point_size) != 24) {
+    %%%%%:   38-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   39:        err_msg(ErrorType::wrong_point_size);
+    %%%%%:   39-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   40:    }
+        -:   41:
+        -:   42:    uint32_t compression;
+    #####:   43:    f.read(reinterpret_cast<char *>(&compression), sizeof(unsigned int));
+    %%%%%:   43-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   44:
+    #####:   45:    if (static_cast<int>(compression) != 0) {
+    %%%%%:   45-block  0
+branch  0 never executed
+branch  1 never executed
+    #####:   46:        err_msg(ErrorType::wrong_compression);
+    %%%%%:   46-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   47:    }
+    #####:   48:}
+    %%%%%:   48-block  0
+        -:   49:
+function _Z11read_headerRKNSt10filesystem7__cxx114pathE called 0 returned 0% blocks executed 0%
+    #####:   50:Header read_header(const std::filesystem::path &path)
+        -:   51:// Reads the values in the header of a valid bitmap and returns them in a structure
+        -:   52:{
+    #####:   53:    Header h{};
+    %%%%%:   53-block  0
+call    0 never executed
+    #####:   54:    std::ifstream f;
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   54-block  0
+call    3 never executed
+    $$$$$:   54-block  1
+call    4 never executed
+    #####:   55:    f.open(path, std::ios::in | std::ios::binary);
+    %%%%%:   55-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+        -:   56:
+    #####:   57:    if (!f.is_open()) {
+    %%%%%:   57-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   57-block  1
+branch  3 never executed
+branch  4 never executed
+    #####:   58:        err_msg(ErrorType::unopened_file);
+    %%%%%:   58-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   59:    }
+        -:   60:
+    #####:   61:    read_type(f);
+    %%%%%:   61-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   62:
+    #####:   63:    f.read(reinterpret_cast<char *>(&h.file_size), sizeof(uint32_t));
+    %%%%%:   63-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   64:
+    #####:   65:    f.ignore(sizeof(unsigned int));// Skip the reserved field
+    %%%%%:   65-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   66:
+    #####:   67:    f.read(reinterpret_cast<char *>(&h.img_start), sizeof(uint32_t));
+    %%%%%:   67-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   68:    f.read(reinterpret_cast<char *>(&h.header_size), sizeof(uint32_t));
+    %%%%%:   68-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   69:    f.read(reinterpret_cast<char *>(&h.img_width), sizeof(uint32_t));
+    %%%%%:   69-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   70:    f.read(reinterpret_cast<char *>(&h.img_height), sizeof(uint32_t));
+    %%%%%:   70-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   71:
+    #####:   72:    check_validity(f);
+    %%%%%:   72-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   73:
+    #####:   74:    f.read(reinterpret_cast<char *>(&h.image_size), sizeof(uint32_t));
+    %%%%%:   74-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   75:    f.read(reinterpret_cast<char *>(&h.h_res), sizeof(uint32_t));
+    %%%%%:   75-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   76:    f.read(reinterpret_cast<char *>(&h.v_res), sizeof(uint32_t));
+    %%%%%:   76-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   77:    f.read(reinterpret_cast<char *>(&h.ctable_size), sizeof(uint32_t));
+    %%%%%:   77-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   78:    f.read(reinterpret_cast<char *>(&h.ccounter), sizeof(uint32_t));
+    %%%%%:   78-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   79:
+        -:   80:    uint8_t bytes;
+    #####:   81:    for (int i = 0; i < static_cast<int>(h.header_size); i++) {
+    %%%%%:   81-block  0
+    %%%%%:   81-block  1
+branch  0 never executed
+branch  1 never executed
+    %%%%%:   81-block  2
+    #####:   82:        f.read(reinterpret_cast<char *>(&bytes), sizeof(uint8_t));
+    %%%%%:   82-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:   83:        h.header.push_back(bytes);
+    %%%%%:   83-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   84:    }
+        -:   85:
+    #####:   86:    return h;
+    %%%%%:   86-block  0
+    %%%%%:   86-block  1
+        -:   87:}
+        -:   88:
+function _Z12write_headerRNSt10filesystem7__cxx114pathE6Header called 0 returned 0% blocks executed 0%
+    #####:   89:void write_header(std::filesystem::path &path, Header header)
+        -:   90:// Writes a (valid) bitmap header in the specified directory using a given header structure
+        -:   91:{
+    #####:   92:    std::ofstream f;
+    %%%%%:   92-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   92-block  1
+call    3 never executed
+    $$$$$:   92-block  2
+call    4 never executed
+    #####:   93:    f.open(path, std::ios::out | std::ios::binary);
+    %%%%%:   93-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+        -:   94:
+    #####:   95:    if (!f.is_open()) {
+    %%%%%:   95-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    %%%%%:   95-block  1
+branch  3 never executed
+branch  4 never executed
+    #####:   96:        err_msg(ErrorType::unopened_file);
+    %%%%%:   96-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:   97:    }
+        -:   98:
+        -:   99:    unsigned char file_type[2];
+    #####:  100:    file_type[0] = 'B';
+    #####:  101:    file_type[1] = 'M';
+    #####:  102:    f.write(reinterpret_cast<const char *>(&file_type[0]), sizeof(file_type[0]));
+    %%%%%:  102-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  103:    f.write(reinterpret_cast<const char *>(&file_type[1]), sizeof(file_type[1]));
+    %%%%%:  103-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  104:
+    #####:  105:    f.write(reinterpret_cast<const char *>(&header.file_size), sizeof(unsigned int));
+    %%%%%:  105-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  106:
+    #####:  107:    f.seekp(10);// Skip the reserved field
+    %%%%%:  107-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+    $$$$$:  107-block  1
+        -:  108:
+    #####:  109:    f.write(reinterpret_cast<const char *>(&header.img_start), sizeof(unsigned int));
+    %%%%%:  109-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  110:    f.write(reinterpret_cast<const char *>(&header.header_size), sizeof(unsigned int));
+    %%%%%:  110-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  111:    f.write(reinterpret_cast<const char *>(&header.img_width), sizeof(unsigned int));
+    %%%%%:  111-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  112:    f.write(reinterpret_cast<const char *>(&header.img_height), sizeof(unsigned int));
+    %%%%%:  112-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  113:
+    #####:  114:    int valid_values[] = {1, 24, 0};
+    #####:  115:    f.write(reinterpret_cast<const char *>(&valid_values[0]), sizeof(uint16_t));    // Number of plains: 1
+    %%%%%:  115-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  116:    f.write(reinterpret_cast<const char *>(&valid_values[1]), sizeof(uint16_t));    // Point size in bits: 24
+    %%%%%:  116-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  117:    f.write(reinterpret_cast<const char *>(&valid_values[2]), sizeof(unsigned int));// Compression: 0
+    %%%%%:  117-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  118:
+    #####:  119:    f.write(reinterpret_cast<const char *>(&header.image_size), sizeof(unsigned int));
+    %%%%%:  119-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  120:    f.write(reinterpret_cast<const char *>(&header.h_res), sizeof(unsigned int));
+    %%%%%:  120-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  121:    f.write(reinterpret_cast<const char *>(&header.v_res), sizeof(unsigned int));
+    %%%%%:  121-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  122:    f.write(reinterpret_cast<const char *>(&header.ctable_size), sizeof(unsigned int));
+    %%%%%:  122-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+    #####:  123:    f.write(reinterpret_cast<const char *>(&header.ccounter), sizeof(unsigned int));
+    %%%%%:  123-block  0
+call    0 never executed
+branch  1 never executed
+branch  2 never executed
+        -:  124:
+    #####:  125:    for (int i = 0; i < static_cast<int>(header.header_size); i++) {
+    %%%%%:  125-block  0
+    %%%%%:  125-block  1
+branch  0 never executed
+branch  1 never executed
+    %%%%%:  125-block  2
+    #####:  126:        f.write(reinterpret_cast<const char *>(&header.header[i]), sizeof(uint8_t));
+    %%%%%:  126-block  0
+call    0 never executed
+call    1 never executed
+branch  2 never executed
+branch  3 never executed
+        -:  127:    }
+    #####:  128:}

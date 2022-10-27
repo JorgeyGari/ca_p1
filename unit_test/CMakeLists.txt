@@ -1,6 +1,6 @@
-add_executable(copy_test copy_test.cpp)
+add_executable(unit_test unit_test.cpp)
 
-target_link_libraries(copy_test common GTest::gtest_main)
+target_link_libraries(unit_test common GTest::gtest_main)
 
 include(GoogleTest)
-gtest_discover_tests(copy_test)
+gtest_discover_tests(unit_test)

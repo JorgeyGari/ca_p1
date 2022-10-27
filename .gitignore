@@ -5,3 +5,4 @@ cmake-build-release-wsl
 *.cbp
 in
 out/*
+unit_test/test_out/*

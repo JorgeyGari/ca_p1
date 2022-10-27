@@ -1,0 +1,7 @@
+add_test([=[unit_test.test_read_pixels]=]  /mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl-coverage/unit_test/unit_test [==[--gtest_filter=unit_test.test_read_pixels]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[unit_test.test_read_pixels]=]  PROPERTIES WORKING_DIRECTORY /mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl-coverage/unit_test SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test([=[unit_test.test_mono]=]  /mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl-coverage/unit_test/unit_test [==[--gtest_filter=unit_test.test_mono]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[unit_test.test_mono]=]  PROPERTIES WORKING_DIRECTORY /mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl-coverage/unit_test SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test([=[unit_test.test_histogram]=]  /mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl-coverage/unit_test/unit_test [==[--gtest_filter=unit_test.test_histogram]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[unit_test.test_histogram]=]  PROPERTIES WORKING_DIRECTORY /mnt/c/Users/Usuario/CLionProjects/ca_p1/cmake-build-debug-wsl-coverage/unit_test SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set(  unit_test_TESTS unit_test.test_read_pixels unit_test.test_mono unit_test.test_histogram)
