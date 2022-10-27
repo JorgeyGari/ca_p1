@@ -3,6 +3,7 @@
 #include "aos.hpp"
 #include "common_gauss.cpp"
 #include "common_hst.hpp"
+#include "common_mono.cpp"
 #include "common_rw.hpp"
 #include <cstring>
 #include <filesystem>
@@ -158,7 +159,7 @@ Pixel getmim(int i, int j, const std::vector<Pixel> &img, const Header &h) {
     return res;
 }
 
-std::vector<Pixel> gauss(const std::vector<Pixel>& img, const Header &h) {
+std::vector<Pixel> gauss(const std::vector<Pixel> &img, const Header &h) {
     std::vector<Pixel> res;
     res.resize(h.img_height * h.img_width);
     for (int i = 0; i < static_cast<int>(h.img_height); i++) {
@@ -170,20 +171,36 @@ std::vector<Pixel> gauss(const std::vector<Pixel>& img, const Header &h) {
     return res;
 }
 
-void call_histogram(const std::vector<Pixel>& image, const std::filesystem::path& new_file) {
+void call_histogram(const std::vector<Pixel> &image, const std::filesystem::path &new_file) {
     std::filesystem::path output_file = new_file.parent_path();
     output_file /= new_file.stem();
     output_file += ".hst";
     histogram(image, output_file);
 }
 
-std::vector<Pixel> perform_op(std::vector<Pixel> image, std::string &op, const std::filesystem::path& new_file, const Header &header) {
+std::vector<Pixel> mono(std::vector<Pixel> &image) {
+    std::vector<Pixel> grayscale_img;
+
+    for (auto &i: image) {
+        std::vector<uint8_t> colors = {i.r, i.g, i.b};
+        std::vector<double> norm_col = normalize(colors);
+        norm_col = linear_intensity_transform(norm_col);
+        double gray = gamma_correct(linear_transform(norm_col[0], norm_col[1], norm_col[2]));
+        u_int8_t den_gray = denormalize(gray);
+        Pixel x = {den_gray, den_gray, den_gray};
+        grayscale_img.push_back(x);
+    }
+
+    return grayscale_img;
+}
+
+std::vector<Pixel> perform_op(std::vector<Pixel> image, std::string &op, const std::filesystem::path &new_file, const Header &header) {
     const char *string = op.c_str();
     if (strcmp(string, "histo") == 0) {
         call_histogram(image, new_file);
     }
     if (strcmp(string, "mono") == 0) {
-        std::cout << "mono is not yet implemented, no modifications will be made to the images\n";
+        image = mono(image);
     }
     if (strcmp(string, "gauss") == 0) {
         image = gauss(image, header);
