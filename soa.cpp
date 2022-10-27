@@ -6,7 +6,6 @@
 #include <cstring>
 #include <filesystem>
 #include <iostream>
-#include <utility>
 
 Image read_pixels(const std::filesystem::path &path, uint32_t start, uint32_t width, uint32_t height)
 // Reads the RGB values of each pixel in the image
@@ -156,7 +155,7 @@ void call_histogram(const Image& image, const std::filesystem::path& new_file) {
     histogram(image, output_file);
 }
 
-Image perform_op(Image image, std::string &op, std::filesystem::path new_file, const Header &header) {
+Image perform_op(Image image, std::string &op, const std::filesystem::path& new_file, const Header &header) {
     const char *string = op.c_str();
     if (strcmp(string, "histo") == 0) {
         call_histogram(image, new_file);
