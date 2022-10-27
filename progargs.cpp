@@ -7,6 +7,14 @@
 
 using namespace std;
 
+void argvalidation(int argc) {
+    if (argc != 4) { /* Checks if enough arguments were provided */
+        printf("\nWrong format: \n image  in_path  out_path  oper \n  operation: copy, histo, mono, gauss\n");
+        exit(-1);
+    }
+}
+
+
 struct Datastruct argparsing(const string &in, const string& out, const string& oper){
 
 	Datastruct data;

@@ -1,13 +1,12 @@
 /* Source file containing functions exclusive to the AOS version */
 
 #include "aos.hpp"
-#include "common_gauss.hpp"
+#include "common_gauss.cpp"
 #include "common_hst.hpp"
 #include "common_rw.hpp"
 #include <cstring>
 #include <filesystem>
 #include <iostream>
-#include <utility>
 
 std::vector<struct Pixel> read_pixels(const std::filesystem::path &path, uint32_t start, uint32_t width, uint32_t height)
 // Reads the RGB values of each pixel in the image
