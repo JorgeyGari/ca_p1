@@ -1,4 +1,4 @@
-/* Header containing definitions exclusive to AOS */
+/* Header containing definitions exclusive to the AOS version */
 
 #ifndef CA_P1_AOS_HPP
 #define CA_P1_AOS_HPP

@@ -1,3 +1,5 @@
+/* Header containing definitions common to all elements */
+
 #ifndef IMAGE_COMMON_HPP
 #define IMAGE_COMMON_HPP
 

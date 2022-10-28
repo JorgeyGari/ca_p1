@@ -1,8 +1,9 @@
 /* Main source file for the SOA version */
 
-#include "soa.cpp"
+#include "soa.hpp"
 #include "progargs.cpp"
 #include "common.hpp"
+#include "common_hst.hpp"
 #include <chrono>
 
 using namespace std;

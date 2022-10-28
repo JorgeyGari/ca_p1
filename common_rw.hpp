@@ -1,3 +1,5 @@
+/* Header containing definitions common to AOS and SOA reading and writing methods */
+
 #ifndef CA_P1_COMMON_HPP
 #define CA_P1_COMMON_HPP
 

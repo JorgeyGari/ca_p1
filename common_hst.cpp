@@ -1,3 +1,5 @@
+/* Source file containing common functions for SOA and AOS histogram methods */
+
 #include "common.hpp"
 #include "common_hst.hpp"
 #include <vector>

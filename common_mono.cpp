@@ -1,3 +1,5 @@
+/* Source file containing common functions for SOA and AOS mono methods */
+
 #include "common_mono.hpp"
 #include <cmath>
 #include <vector>

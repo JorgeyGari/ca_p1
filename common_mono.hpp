@@ -1,3 +1,5 @@
+/* Header containing definitions common to the AOS and SOA mono methods */
+
 #ifndef IMAGE_COMMON_MONO_HPP
 #define IMAGE_COMMON_MONO_HPP
 

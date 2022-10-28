@@ -1,3 +1,5 @@
+/* Header containing definitions common to the AOS and SOA histogram methods */
+
 #ifndef IMAGE_COMMON_HST_HPP
 #define IMAGE_COMMON_HST_HPP
 

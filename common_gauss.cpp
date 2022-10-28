@@ -1,3 +1,5 @@
+/* Source file containing functions common to SOA and AOS gauss methods */
+
 #include "common_gauss.hpp"
 
 int getm(int s, int t) {
