@@ -58,7 +58,7 @@ void write_bmp(std::filesystem::path &path, const Header &header, std::vector<Pi
 
     const int padding_bytes = (4 - (static_cast<int>(header.img_width) * 3) % 4) % 4;
     int px = int(header.img_width * header.img_height);
-    int zero = 0;// FIXME: This is stupid
+    int zero = 0;
     int wrote = 0;
     for (int i = 0; i < px; i++) {
         f.write(reinterpret_cast<char *>(&image[i].b), sizeof(uint8_t));
