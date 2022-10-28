@@ -1,50 +1,47 @@
 #include <gtest/gtest.h>
 #include <filesystem>
 #include <string>
-#include "../aos.cpp"
+#include "../soa.cpp"
 
-TEST(unit_test, test_read_pixels)
+TEST(unit_test, test_read_pixels_soa)
 {
-    std::cout << "\nTEST: read_pixels()";
+    std::cout << "\nTEST: read_pixels() (SOA ver.)\n";
     auto x = read_pixels(std::filesystem::path("../../unit_test/test_in/test.bmp"), 138, 5, 5);
 
-    Pixel red = {255, 0, 0};
-    Pixel black = {0, 0, 0};
-    Pixel white = {255, 255, 255};
+    std::vector<uint8_t> red_RGB = {255, 0, 0};
+    std::vector<uint8_t> black_RGB = {0, 0, 0};
+    std::vector<uint8_t> white_RGB = {255, 255, 255};
 
     std::cout << "Checking pixel 0 is red.\n";
-    EXPECT_EQ(red.r, x[0].r);
-    EXPECT_EQ(red.g, x[0].g);
-    EXPECT_EQ(red.b, x[0].b);
+    EXPECT_EQ(red_RGB[0], x.r[0]);
+    EXPECT_EQ(red_RGB[1], x.g[0]);
+    EXPECT_EQ(red_RGB[2], x.b[0]);
 
     std::cout << "Checking pixel 5 is white.\n";
-    EXPECT_EQ(white.r, x[5].r);
-    EXPECT_EQ(white.g, x[5].g);
-    EXPECT_EQ(white.b, x[5].b);
+    EXPECT_EQ(white_RGB[0], x.r[5]);
+    EXPECT_EQ(white_RGB[1], x.g[5]);
+    EXPECT_EQ(white_RGB[2], x.b[5]);
 
     std::cout << "Checking pixel 15 is black.\n";
-    EXPECT_EQ(black.r, x[15].r);
-    EXPECT_EQ(black.g, x[15].g);
-    EXPECT_EQ(black.b, x[15].b);
+    EXPECT_EQ(black_RGB[0], x.r[15]);
+    EXPECT_EQ(black_RGB[1], x.g[15]);
+    EXPECT_EQ(black_RGB[2], x.b[15]);
 }
 
-TEST(unit_test, test_mono)
+TEST(unit_test, test_mono_soa)
 {
-    std::cout << "\nTEST: mono()";
+    std::cout << "\nTEST: mono() (SOA ver.)\n";
     auto x = read_pixels(std::filesystem::path("../../unit_test/test_in/test.bmp"), 138, 5, 5);
     x = mono(x);
 
     std::cout << "Checking every pixel is grayscale (R = G = B).\n";
-    for(auto & i : x)
-    {
-        EXPECT_EQ(i.r, i.g);
-        EXPECT_EQ(i.r, i.b);
-    }
+    EXPECT_EQ(x.r, x.g);
+    EXPECT_EQ(x.r, x.b);
 }
 
-TEST(unit_test, test_histogram)
+TEST(unit_test, test_histogram_soa)
 {
-    std::cout << "\nTEST: histogram()";
+    std::cout << "\nTEST: histogram() (SOA ver.)\n";
     auto x = read_pixels(std::filesystem::path("../../unit_test/test_in/test.bmp"), 138, 5, 5);
     histogram(x, std::filesystem::path("../../unit_test/test_out/test.hst"));
     std::ifstream f = std::filesystem::path("../../unit_test/test_out/test.hst");
