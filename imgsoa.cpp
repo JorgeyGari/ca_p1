@@ -1,6 +1,6 @@
 /* Main source file for the SOA version */
 
-#include "soa.hpp"
+#include "soa.cpp"
 #include "progargs.cpp"
 #include "common.hpp"
 #include "common_hst.hpp"

@@ -4,10 +4,14 @@
 #define CA_P1_SOA_HPP
 
 #include "common_rw.hpp"
+#include "common_gauss.hpp"
+#include "common_hst.hpp"
+#include "common_mono.hpp"
 #include <filesystem>
 #include <vector>
 
-struct Image// SOA we use to represent an image
+struct Image
+// SOA we use to represent an image
 {
     std::vector<uint8_t> r;
     std::vector<uint8_t> g;

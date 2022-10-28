@@ -4,6 +4,10 @@
 #define CA_P1_AOS_HPP
 
 #include "common_rw.hpp"
+#include "common_rw.hpp"
+#include "common_hst.hpp"
+#include "common_gauss.hpp"
+#include "common_mono.hpp"
 #include <filesystem>
 #include <vector>
 
