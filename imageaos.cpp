@@ -1,42 +1,209 @@
-/* Main source file for the AOS version */
+/* Source file containing functions exclusive to the AOS version */
 
-#include "common.hpp"
+#include "imageaos.hpp"
+#include "common_gauss.cpp"
 #include "common_hst.hpp"
-#include "imgaos.hpp"
-#include "progargs.cpp"
-#include <chrono>
+#include "common_mono.cpp"
+#include "common_rw.hpp"
+#include <cstring>
+#include <filesystem>
+#include <iostream>
 
-using namespace std;
+std::vector<struct Pixel> read_pixels(const std::filesystem::path &path, uint32_t start, uint32_t width, uint32_t height)
+// Reads the RGB values of each pixel in the image
+{
+    std::ifstream f;
+    f.open(path, std::ios::in | std::ios::binary);
+    /* We do not need to check if it exists or if it could be opened because read_header() already did */
 
-int main(int argc, char *argv[]) {
-    argvalidation(argc);
-    Datastruct data_files = argparsing(string(argv[1]), string(argv[2]), string(argv[3]));//analyzes if data provided is valid
-    filesystem::directory_iterator it(data_files.in);
-    for (auto &entry: it) {
-        auto start = chrono::high_resolution_clock::now();
-        Header header = read_header(entry.path());
-        std::vector<Pixel> image = read_pixels(entry.path(), header.img_start, header.img_width, header.img_height);
-        long loadtime = stop_chrono(start);
+    f.seekg(start);
 
-        filesystem::path new_file = data_files.out;
-        new_file /= entry.path().filename();
+    int px = int(width * height);
+    std::vector<Pixel> img(px);
 
-        start = chrono::high_resolution_clock::now();
-        if (strcmp(argv[3], "histo") != 0) {
-            open_file(new_file);
+    /* To calculate how many bytes of padding we have in each row, first we find out how many bytes the colors take up:
+     * that is three bytes per color. That amount modulo 4 tells us how many bytes over we are, and 4 minus that amount
+     * gives us how many bytes we have left. If the color bytes modulo 4 is 0, then that amount is 4, and we may skip
+     * information from the image, so we apply modulo 4 once again to convert that to 0.
+    */
+    const int padding_bytes = (4 - (int(width) * 3) % 4) % 4;
+    int read = 0;
+
+    for (int i = 0; i < px; i++) {
+        f.read(reinterpret_cast<char *>(&img[i].b), sizeof(uint8_t));
+        read++;
+        f.read(reinterpret_cast<char *>(&img[i].g), sizeof(uint8_t));
+        read++;
+        f.read(reinterpret_cast<char *>(&img[i].r), sizeof(uint8_t));
+        read++;
+        if (read == static_cast<int>(width) * 3) {
+            read = 0;
+            f.ignore(padding_bytes);
         }
-        image = perform_op(image, reinterpret_cast<string &>(argv[3]), new_file, header);
-        auto opertime = stop_chrono(start);
-
-        start = chrono::high_resolution_clock::now();
-        if (strcmp(argv[3], "histo") != 0) {
-                write_bmp(new_file, header, image);
-            }
-        auto storetime = stop_chrono(start);
-
-        long total = loadtime + opertime + storetime;
-        std::cout << "----------------------\n";
-        cout << "File: " << entry << " (time: " << total << ")" << "\n";//print the total time and the particular times
-        print_data(string(argv[3]), loadtime, opertime, storetime);
     }
+
+    return img;
+}
+
+void write_bmp(std::filesystem::path &path, const Header &header, std::vector<Pixel> image)
+// Writes a (valid) bitmap file in the specified directory using a given header and the color values for its pixels
+{
+    write_header(path, header);
+
+    std::ofstream f;
+    f.open(path, std::ios::in | std::ios::binary);
+    /* We do not need to check for errors because write_header() already did */
+
+    f.seekp(int(header.img_start));
+
+    const int padding_bytes = (4 - (static_cast<int>(header.img_width) * 3) % 4) % 4;
+    int px = int(header.img_width * header.img_height);
+    int zero = 0;
+    int wrote = 0;
+    for (int i = 0; i < px; i++) {
+        f.write(reinterpret_cast<char *>(&image[i].b), sizeof(uint8_t));
+        wrote++;
+        f.write(reinterpret_cast<char *>(&image[i].g), sizeof(uint8_t));
+        wrote++;
+        f.write(reinterpret_cast<char *>(&image[i].r), sizeof(uint8_t));
+        wrote++;
+        if (wrote == static_cast<int>(header.img_width) * 3) {
+            f.write(reinterpret_cast<const char *>(&zero), padding_bytes);
+            wrote = 0;
+        }
+    }
+}
+
+void count(std::vector<int> &freq_red, std::vector<int> &freq_green, std::vector<int> &freq_blue, const std::vector<Pixel> &img) {
+    int n = static_cast<int>(img.size());// Save the number of pixels in the image
+    for (int i = 0; i < n; i++) {
+        freq_red[img[i].r]++;
+        freq_green[img[i].g]++;
+        freq_blue[img[i].b]++;
+    }
+}
+
+void histogram(const std::vector<Pixel> &img, std::filesystem::path path) {
+    std::ofstream f = open_file(path);
+
+    // Declare 3 vectors to count the frequencies, one for each color
+    std::vector<int> freq_red, freq_green, freq_blue;
+    freq_red.resize(256);// size = 256 as we can have those values
+    freq_green.resize(256);
+    freq_blue.resize(256);
+
+    count(freq_red, freq_green, freq_blue, img);
+
+    print_to_file(freq_red, f);
+    print_to_file(freq_green, f);
+    print_to_file(freq_blue, f);
+}
+
+Pixel getim(int position, const std::vector<Pixel> &img) {
+    Pixel p{};
+    p.r = img[position].r;
+    p.g = img[position].g;
+    p.b = img[position].b;
+    return p;
+}
+
+int multiply(uint8_t color, int m) {
+    int ip = static_cast<int>(color);
+    int mip = m * ip;
+    return mip;
+}
+
+Pixel pixel_to_zero(Pixel p) {
+    p.r = static_cast<uint8_t>(0);
+    p.g = static_cast<uint8_t>(0);
+    p.b = static_cast<uint8_t>(0);
+    return p;
+}
+
+Pixel getres(int sumatoryr, int sumatoryg, int sumatoryb) {
+    Pixel res{};
+    int w = 273;
+
+    int resr = sumatoryr / w;
+    int resg = sumatoryg / w;
+    int resb = sumatoryb / w;
+
+    res.r = static_cast<uint8_t>(resr);
+    res.g = static_cast<uint8_t>(resg);
+    res.b = static_cast<uint8_t>(resb);
+
+    return res;
+}
+
+Pixel getmim(int i, int j, const std::vector<Pixel> &img, const Header &h) {
+    int sumatoryr = 0, sumatoryg = 0, sumatoryb = 0;
+    for (int s = -3; s < 2; s++) {
+        for (int t = -3; t < 2; t++) {
+            Pixel p{};
+            int position = ((i + s) * static_cast<int>(h.img_width)) + (j + t);
+            if (i + s < 0 || j + t < 0 || i + s > static_cast<int>(h.img_height) - 1 || j + t > static_cast<int>(h.img_width) - 1) {
+                p = pixel_to_zero(p);
+            } else {
+                p = getim(position, img);
+            }
+            int m = getm(s, t);
+            int mimr = multiply(p.r, m);
+            int mimg = multiply(p.g, m);
+            int mimb = multiply(p.b, m);
+            sumatoryr += mimr;
+            sumatoryg += mimg;
+            sumatoryb += mimb;
+        }
+    }
+    Pixel res = getres(sumatoryr, sumatoryg, sumatoryb);
+    return res;
+}
+
+std::vector<Pixel> gauss(const std::vector<Pixel> &img, const Header &h) {
+    std::vector<Pixel> res;
+    res.resize(h.img_height * h.img_width);
+    for (int i = 0; i < static_cast<int>(h.img_height); i++) {
+        for (int j = 0; j < static_cast<int>(h.img_width); j++) {
+            Pixel resij = getmim(i, j, img, h);
+            res[i * h.img_width + j] = resij;
+        }
+    }
+    return res;
+}
+
+void call_histogram(const std::vector<Pixel> &image, const std::filesystem::path &new_file) {
+    std::filesystem::path output_file = new_file.parent_path();
+    output_file /= new_file.stem();
+    output_file += ".hst";
+    histogram(image, output_file);
+}
+
+std::vector<Pixel> mono(std::vector<Pixel> &image) {
+    std::vector<Pixel> grayscale_img;
+
+    for (auto &i: image) {
+        std::vector<uint8_t> colors = {i.r, i.g, i.b};
+        std::vector<double> norm_col = normalize(colors);
+        norm_col = linear_intensity_transform(norm_col);
+        double gray = gamma_correct(linear_transform(norm_col[0], norm_col[1], norm_col[2]));
+        u_int8_t den_gray = denormalize(gray);
+        Pixel x = {den_gray, den_gray, den_gray};
+        grayscale_img.push_back(x);
+    }
+
+    return grayscale_img;
+}
+
+std::vector<Pixel> perform_op(std::vector<Pixel> image, std::string &op, const std::filesystem::path &new_file, const Header &header) {
+    const char *string = op.c_str();
+    if (strcmp(string, "histo") == 0) {
+        call_histogram(image, new_file);
+    }
+    if (strcmp(string, "mono") == 0) {
+        image = mono(image);
+    }
+    if (strcmp(string, "gauss") == 0) {
+        image = gauss(image, header);
+    }
+    return image;
 }

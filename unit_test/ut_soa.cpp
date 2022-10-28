@@ -1,4 +1,4 @@
-#include "../imgsoa.cpp"
+#include "../imagesoa.cpp"
 #include <filesystem>
 #include <gtest/gtest.h>
 #include <string>
