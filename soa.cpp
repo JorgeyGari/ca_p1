@@ -156,7 +156,9 @@ void call_histogram(const Image &image, const std::filesystem::path &new_file) {
     histogram(image, output_file);
 }
 
-Image mono(Image &image) {
+Image mono(Image &image)
+// Calls all phases of the grayscale algorithm in order
+{
     Image grayscale_img;
     for (int i = 0; i < static_cast<int>(image.r.size()); i++) {
         std::vector<uint8_t> colors = {image.r[i], image.g[i], image.b[i]};

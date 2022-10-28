@@ -1,7 +1,9 @@
 cmake-build-debug-wsl
 cmake-build-release-wsl
+cmake-build-debug-wsl-coverage
 .idea
 *.Identifier
 *.cbp
 in
-out/*
+out
+unit_test/test_out

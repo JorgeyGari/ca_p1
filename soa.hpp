@@ -1,3 +1,5 @@
+/* Header containing definitions exclusive to the SOA version */
+
 #ifndef CA_P1_SOA_HPP
 #define CA_P1_SOA_HPP
 
@@ -23,5 +25,13 @@ std::vector<int> getmim (int i, int j, const Header &h, const std::vector<uint8_
 int getres (int i, int j, const Header &h, const std::vector<uint8_t> &color);
 
 Image gauss (const Image &img, const Header &h);
+
+void histogram(const Image &img, std::filesystem::path path);
+
+void call_histogram(const Image &image, const std::filesystem::path &new_file);
+
+Image mono(Image &image);
+
+Image perform_op(Image image, std::string &op, const std::filesystem::path &new_file, const Header &header);
 
 #endif//CA_P1_SOA_HPP

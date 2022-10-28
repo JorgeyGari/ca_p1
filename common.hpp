@@ -9,7 +9,8 @@ struct Datastruct {
     std::filesystem::path in, out;
 };
 
-enum class ErrorType// Possible errors while reading, used by function err_msg()
+enum class ErrorType
+// Possible errors while reading, used by function err_msg()
 {
     unopened_file,
     wrong_type,
