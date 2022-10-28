@@ -3,9 +3,9 @@
 #include <string>
 #include "../aos.cpp"
 
-TEST(unit_test, test_read_pixels)
+TEST(unit_test, test_read_pixels_aos)
 {
-    std::cout << "\nTEST: read_pixels()";
+    std::cout << "\nTEST: read_pixels() (AOS ver.)\n";
     auto x = read_pixels(std::filesystem::path("../../unit_test/test_in/test.bmp"), 138, 5, 5);
 
     Pixel red = {255, 0, 0};
@@ -28,9 +28,9 @@ TEST(unit_test, test_read_pixels)
     EXPECT_EQ(black.b, x[15].b);
 }
 
-TEST(unit_test, test_mono)
+TEST(unit_test, test_mono_aos)
 {
-    std::cout << "\nTEST: mono()";
+    std::cout << "\nTEST: mono() (AOS ver.)\n";
     auto x = read_pixels(std::filesystem::path("../../unit_test/test_in/test.bmp"), 138, 5, 5);
     x = mono(x);
 
@@ -42,9 +42,9 @@ TEST(unit_test, test_mono)
     }
 }
 
-TEST(unit_test, test_histogram)
+TEST(unit_test, test_histogram_aos)
 {
-    std::cout << "\nTEST: histogram()";
+    std::cout << "\nTEST: histogram() (AOS ver.)\n";
     auto x = read_pixels(std::filesystem::path("../../unit_test/test_in/test.bmp"), 138, 5, 5);
     histogram(x, std::filesystem::path("../../unit_test/test_out/test.hst"));
     std::ifstream f = std::filesystem::path("../../unit_test/test_out/test.hst");
