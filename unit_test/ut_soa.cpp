@@ -1,7 +1,7 @@
-#include <gtest/gtest.h>
+#include "../imgsoa.cpp"
 #include <filesystem>
+#include <gtest/gtest.h>
 #include <string>
-#include "../soa.cpp"
 
 TEST(unit_test, test_read_pixels_soa)
 {

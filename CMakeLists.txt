@@ -9,12 +9,12 @@ add_compile_options(-Wall -Wextra -Werror -pedantic -pedantic-errors)
 set(CMAKE_CXX_FLAGS_RELEASE "-march=native")
 
 add_library(common progargs.cpp common_rw.cpp common_hst.cpp common.cpp common_gauss.cpp common_mono.cpp)
-add_library(soa soa.cpp)
-add_library(aos aos.cpp)
+add_library(soa imgsoa.cpp)
+add_library(aos imgaos.cpp)
 
-add_executable(image-soa imgsoa.cpp)
+add_executable(image-soa imagesoa.cpp)
 target_link_libraries(image-soa common soa)
-add_executable(image-aos imgaos.cpp)
+add_executable(image-aos imageaos.cpp)
 target_link_libraries(image-aos common aos)
 
 include(FetchContent)

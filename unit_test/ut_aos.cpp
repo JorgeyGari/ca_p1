@@ -1,7 +1,7 @@
-#include <gtest/gtest.h>
+#include "../imgaos.cpp"
 #include <filesystem>
+#include <gtest/gtest.h>
 #include <string>
-#include "../aos.cpp"
 
 TEST(unit_test, test_read_pixels_aos)
 {
